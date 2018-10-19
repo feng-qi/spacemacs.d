@@ -84,7 +84,7 @@ This function should only modify configuration layer settings."
      org
      pdf
      (python :variables python-backend 'lsp)
-     ipython-notebook
+     ;; ipython-notebook
      ranger
      sql
      ;; fasd
@@ -696,7 +696,7 @@ before packages are loaded."
 
   ;; language server
   (add-hook 'python-mode-hook 'lsp-python-enable)
-  (spacemacs/lsp-bind-keys-for-mode 'python-mode)
+  ;; (spacemacs/lsp-bind-keys-for-mode 'python-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
