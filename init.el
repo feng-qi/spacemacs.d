@@ -56,6 +56,7 @@ This function should only modify configuration layer settings."
      emacs-lisp
      (go :variables go-tab-width 4)
      haskell
+     idris
      (lua :variables lua-indent-level 4)
      rust
      (scala :variables
@@ -73,7 +74,6 @@ This function should only modify configuration layer settings."
                       version-control-diff-side 'left
                       version-control-global-margin nil)
      ;; (gtags :variables gtags-enable-by-default nil)
-     cscope
      html
      csharp
      java
@@ -595,6 +595,7 @@ before packages are loaded."
     (kbd "os")  'just-one-space
     ;; (kbd "ou")  'fengqi/upcase-previous-WORD
     (kbd "oy")  'youdao-dictionary-search-at-point+
+    (kbd "sc")  'evil-search-highlight-persist-remove-all
     ;; (kbd "tf")  'spacemacs/toggle-auto-fill-mode
     ;; (kbd "tF")  'spacemacs/toggle-fill-column-indicator
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
@@ -694,7 +695,14 @@ before packages are loaded."
   ;; (when (file-exists-p "~/.local.el")
   ;;   (load "~/.local.el"))
 
+
   ;; language server
+
+  ;; Configuration to fix LSP errors.
+  (setq lsp-enable-eldoc nil) ;we will got error "Wrong type argument: sequencep" from `eldoc-message' if `lsp-enable-eldoc' is non-nil
+  (setq lsp-message-project-root-warning t) ;avoid popup warning buffer if lsp can't found root directory (such as edit simple *.py file)
+  (setq create-lockfiles nil) ;we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
+
   (add-hook 'python-mode-hook 'lsp-python-enable)
   ;; (spacemacs/lsp-bind-keys-for-mode 'python-mode)
   )
