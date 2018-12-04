@@ -57,6 +57,7 @@ This function should only modify configuration layer settings."
      (go :variables go-tab-width 4)
      haskell
      idris
+     octave
      (lua :variables lua-indent-level 4)
      rust
      (scala :variables
@@ -104,6 +105,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(json-mode
                                       command-log-mode
                                       evil-search-highlight-persist
+                                      exec-path-from-shell
                                       protobuf-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -550,6 +552,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (exec-path-from-shell-initialize)
   (load-file "~/.spacemacs.d/funcs.el")
   ;; (setq ivy-count-format "(%d/%d) ")
   ;; (setq powerline-default-separator nil)
@@ -571,33 +574,31 @@ before packages are loaded."
   (fengqi/define-key evil-visual-state-map
                      "+" 'evil-numbers/inc-at-pt
                      "-" 'evil-numbers/dec-at-pt)
-  ;; (fengqi/define-key evil-motion-state-map
-  ;;                    "t" 'evil-find-char-backward)
+  (with-eval-after-load "symbol-overlay"
+    (fengqi/define-key symbol-overlay-map
+                       (kbd "d") nil))
 
-  ;; (global-set-key (kbd "C-=") 'er/expand-region)
   (global-set-key (kbd "C-c i") 'ido-insert-buffer)
   (global-set-key (kbd "C-'") 'fengqi/upcase-previous-WORD)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "M-i") 'symbol-overlay-put)
+  (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
+  (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
   (spacemacs/set-leader-keys
     (kbd "xas") 'spacemacs/align-repeat-space
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "bv")  'mark-whole-buffer
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
     (kbd "fm")  'fengqi/move-current-buffer-file
-    ;; (kbd "hh")  'helm-tldr
     (kbd "oe")  'eval-and-replace
     ;; (kbd "om")  'evil-mc-mode
     (kbd "oi")  'fengqi/count-words-region
     (kbd "oc")  'fengqi/copy-current-buffer-name
-    ;; (kbd "oo")  'fengqi/set-compile-command
     (kbd "op")  'plur-replace
     (kbd "or")  'fengqi/string-reverse
     (kbd "os")  'just-one-space
-    ;; (kbd "ou")  'fengqi/upcase-previous-WORD
     (kbd "oy")  'youdao-dictionary-search-at-point+
-    (kbd "sc")  'evil-search-highlight-persist-remove-all
-    ;; (kbd "tf")  'spacemacs/toggle-auto-fill-mode
-    ;; (kbd "tF")  'spacemacs/toggle-fill-column-indicator
+    (kbd "sc")  'fengqi/remove-highlight
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus

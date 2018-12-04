@@ -113,3 +113,9 @@ See also `count-words-region'"
       (evil-exit-visual-state)
       (message "Words: %d. Chars: %d." wordCount charCount)
       )))
+
+(defun fengqi/remove-highlight ()
+  "Remove highlights putted by evil-search and symbol-overlay."
+  (interactive)
+  (evil-search-highlight-persist-remove-all)
+  (symbol-overlay-remove-all))

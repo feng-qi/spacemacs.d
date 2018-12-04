@@ -38,9 +38,8 @@
     plur ; vim Abolish
     nhexl-mode
     thrift
-    tldr
-    ;; org-ac
     zenburn-theme
+    symbol-overlay
     )
   "The list of Lisp packages required by the fengqi layer.
 
@@ -104,13 +103,13 @@ Each entry is either:
     :defer t
     ))
 
-(defun fengqi/init-tldr ()
-  (use-package tldr
+(defun fengqi/init-zenburn-theme ()
+  (use-package zenburn-theme
     :defer t
     ))
 
-(defun fengqi/init-zenburn-theme ()
-  (use-package tldr
+(defun fengqi/init-symbol-overlay ()
+  (use-package symbol-overlay
     :defer t
     ))
 
