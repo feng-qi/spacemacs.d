@@ -576,12 +576,16 @@ before packages are loaded."
                      "-" 'evil-numbers/dec-at-pt)
   (with-eval-after-load "symbol-overlay"
     (fengqi/define-key symbol-overlay-map
-                       (kbd "d") nil))
+                       (kbd "d") nil
+                       (kbd "e") nil
+                       (kbd "i") nil
+                       (kbd "w") nil))
 
   (global-set-key (kbd "C-c i") 'ido-insert-buffer)
   (global-set-key (kbd "C-'") 'fengqi/upcase-previous-WORD)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (global-set-key (kbd "M-i") 'symbol-overlay-put)
+  (global-set-key (kbd "M-e") 'symbol-overlay-put)
   (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
   (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
   (spacemacs/set-leader-keys
