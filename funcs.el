@@ -119,3 +119,9 @@ See also `count-words-region'"
   (interactive)
   (evil-search-highlight-persist-remove-all)
   (symbol-overlay-remove-all))
+
+(defun fengqi/delete-frame ()
+  "Save some buffers before delete current frame."
+  (interactive)
+  (save-some-buffers nil t)
+  (delete-frame))

@@ -84,7 +84,7 @@ This function should only modify configuration layer settings."
      ;; (org :variables org-enable-reveal-js-support t)
      org
      pdf
-     (python :variables python-backend 'lsp)
+     (python :variables python-backend 'anaconda)
      ;; ipython-notebook
      ranger
      sql
@@ -261,7 +261,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(doom :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(doom :separator nil :separator-scale 1.5)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -578,6 +578,7 @@ before packages are loaded."
     (fengqi/define-key symbol-overlay-map
                        (kbd "d") nil
                        (kbd "e") nil
+                       (kbd "h") nil
                        (kbd "i") nil
                        (kbd "w") nil))
 
@@ -602,6 +603,8 @@ before packages are loaded."
     (kbd "or")  'fengqi/string-reverse
     (kbd "os")  'just-one-space
     (kbd "oy")  'youdao-dictionary-search-at-point+
+    (kbd "qq")  'fengqi/delete-frame
+    (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "sc")  'fengqi/remove-highlight
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
@@ -615,8 +618,7 @@ before packages are loaded."
 
   (dolist (mode '(c-mode c++-mode))
     (evil-leader/set-key-for-mode mode
-      "f b" 'clang-format-buffer
-      "f f" 'clang-format-region
+      "f f" 'spacemacs/clang-format-region-or-buffer
       "o o" 'fengqi/set-compile-command
       ))
 
@@ -708,7 +710,7 @@ before packages are loaded."
   (setq lsp-message-project-root-warning t) ;avoid popup warning buffer if lsp can't found root directory (such as edit simple *.py file)
   (setq create-lockfiles nil) ;we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
 
-  (add-hook 'python-mode-hook 'lsp-python-enable)
+  ;; (add-hook 'python-mode-hook 'lsp-python-enable)
   ;; (spacemacs/lsp-bind-keys-for-mode 'python-mode)
   )
 
