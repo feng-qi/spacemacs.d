@@ -34,6 +34,14 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     command-log
+     (search-engine :variables
+                    browse-url-browser-function 'browse-url-generic
+                    engine/browser-function 'browse-url-generic
+                    browse-url-generic-program "firefox")
+     restclient
+     deft
+     systemd
      lsp
      (treemacs :variables treemacs-position 'right)
      docker
@@ -54,6 +62,7 @@ This function should only modify configuration layer settings."
      (clojure :variables clojure-enable-fancify-symbols nil)
      ;; ivy
      emacs-lisp
+     parinfer
      (go :variables go-tab-width 4)
      haskell
      idris
@@ -103,7 +112,6 @@ This function should only modify configuration layer settings."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(json-mode
-                                      command-log-mode
                                       evil-search-highlight-persist
                                       exec-path-from-shell
                                       protobuf-mode)
@@ -565,6 +573,7 @@ before packages are loaded."
   (setq-default python-shell-interpreter "python3")
   ;; (setq hscroll-step 50)
   ;; (setq hscroll-margin 50)
+  (setq deft-directory "~/github/notes")
 
   (fengqi/define-key evil-normal-state-map
                      "g[" 'backward-page ; https://github.com/lujun9972/emacs-document/blob/master/emacs-common/%E5%90%88%E7%90%86%E5%9C%B0%E5%9C%A8Emacs%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E9%A1%B5%E7%AC%A6.org
