@@ -125,3 +125,27 @@ See also `count-words-region'"
   (interactive)
   (save-some-buffers nil t)
   (delete-frame))
+
+(defun fengqi/untabify-region-or-buffer (&optional style)
+  "Untabify the current region or buffer with `untabify' according to STYLE."
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+        (progn
+          (untabify (region-beginning) (region-end) style)
+          (message "Untabified region"))
+      (progn
+        (untabify (point-min) (point-max) style)
+        (message "Untabified buffer %s" (buffer-name))))))
+
+(defun fengqi/tabify-region-or-buffer (&optional style)
+  "Tabify the current region or buffer with `tabify' according to STYLE."
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+        (progn
+          (tabify (region-beginning) (region-end) style)
+          (message "Tabified region"))
+      (progn
+        (tabify (point-min) (point-max) style)
+        (message "Tabified buffer %s" (buffer-name))))))

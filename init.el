@@ -52,6 +52,7 @@ This function should only modify configuration layer settings."
      ;; semantic
      imenu-list
      asm
+     cmake
      (c-c++ :variables
             c-c++-enable-c++11 t
             c-c++-default-mode-for-headers 'c++-mode
@@ -564,15 +565,10 @@ before packages are loaded."
   (load-file "~/.spacemacs.d/funcs.el")
   ;; (setq ivy-count-format "(%d/%d) ")
   ;; (setq powerline-default-separator nil)
-  ;; (spaceline-compile)
-  ;; (setq-default evil-escape-key-sequence "jk")
   (global-company-mode t)
   (global-evil-search-highlight-persist t)
-  ;; (global-prettify-symbols-mode t)
-  ;; (setq-default show-trailing-whitespace t)
   (setq-default python-shell-interpreter "python3")
-  ;; (setq hscroll-step 50)
-  ;; (setq hscroll-margin 50)
+  (setq hscroll-step 1)
   (setq deft-directory "~/github/notes")
 
   (fengqi/define-key evil-normal-state-map
@@ -589,7 +585,11 @@ before packages are loaded."
                        (kbd "e") nil
                        (kbd "h") nil
                        (kbd "i") nil
+                       (kbd "q") nil
                        (kbd "w") nil))
+  (with-eval-after-load "term"
+    (fengqi/define-key term-raw-map
+                       (kbd "C-c C-y") #'term-paste))
 
   (global-set-key (kbd "C-c i") 'ido-insert-buffer)
   (global-set-key (kbd "C-'") 'fengqi/upcase-previous-WORD)
@@ -615,6 +615,8 @@ before packages are loaded."
     (kbd "qq")  'fengqi/delete-frame
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "sc")  'fengqi/remove-highlight
+    (kbd "tt")  'fengqi/tabify-region-or-buffer
+    (kbd "tu")  'fengqi/untabify-region-or-buffer
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus
@@ -640,10 +642,10 @@ before packages are loaded."
   ;; (add-hook 'compilation-mode-hook (lambda () (setq compilation-window-height 10)))
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
   (add-hook 'org-mode-hook (lambda () (progn
-                                   (setq show-trailing-whitespace t)
-                                   (smartparens-mode t)
-                                   (auto-fill-mode t)
-                                   )))
+                                        (setq show-trailing-whitespace t)
+                                        (smartparens-mode t)
+                                        (auto-fill-mode t)
+                                        )))
 
   ;; markdown exporter, more info: https://orgmode.org/worg/exporters/ox-overview.html
   (with-eval-after-load "org"
@@ -684,11 +686,11 @@ before packages are loaded."
                 truncate-lines t
                 c-basic-offset 4)
   ;; (setq browse-url-browser-function 'eww-browse-url)
-  (when window-system
-    (add-to-list 'default-frame-alist '(height . 52))
-    (add-to-list 'default-frame-alist '(width . 100))
-    (add-to-list 'default-frame-alist '(top . 0))
-    (add-to-list 'default-frame-alist '(left . 1100)))
+  ;; (when window-system
+  ;;   (add-to-list 'default-frame-alist '(height . 52))
+  ;;   (add-to-list 'default-frame-alist '(width . 100))
+  ;;   (add-to-list 'default-frame-alist '(top . 0))
+  ;;   (add-to-list 'default-frame-alist '(left . 1100)))
 
   (c-add-style "fengqi"
                '((c-basic-offset . 2)
