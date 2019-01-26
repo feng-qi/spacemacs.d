@@ -526,9 +526,9 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq configuration-layer-elpa-archives
-    '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-      ("org-cn"   . "http://elpa.emacs-china.org/org/")
-      ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+        '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+          ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+          ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
   (setq tramp-ssh-controlmaster-options
         "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   (setq byte-compile-warnings '(not obsolete))
@@ -562,7 +562,7 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (exec-path-from-shell-initialize)
-  (load-file "~/.spacemacs.d/funcs.el")
+  ;; (when (file-exists-p "~/.spacemacs.d/funcs.el") (load "~/.spacemacs.d/funcs.el"))
   ;; (setq ivy-count-format "(%d/%d) ")
   ;; (setq powerline-default-separator nil)
   (global-company-mode t)
@@ -662,7 +662,6 @@ before packages are loaded."
             (gnus    . org-gnus-no-new-news)
             (file    . find-file)
             (wl      . wl-other-frame)))
-    ;; (org-ac/config-default)
     )
 
   ;; https://emacs.stackexchange.com/questions/9583/how-to-treat-underscore-as-part-of-the-word
@@ -671,8 +670,6 @@ before packages are loaded."
   ;; https://github.com/syl20bnr/spacemacs/blob/develop/doc/FAQ.org#include-underscores-in-word-motions
   ;; (add-hook 'c++-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
   ;; (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-
-  ;; (add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 
   ;; (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
 
@@ -702,16 +699,7 @@ before packages are loaded."
   ;; (add-hook 'find-file-hook 'auto-insert)
   ;; (define-auto-insert "CMakeLists.txt" "~/github/cpp_starter_project/CMakeLists.txt")
 
-  (add-to-list 'yas-snippet-dirs "~/dotfiles/snippets")
-  (setq eclim-eclipse-dirs '("~/eclipse")
-        eclim-executable "~/eclipse/eclim"
-        eclimd-default-workspace "~/workspace")
-  ;; (add-hook 'java-mode-hook (lambda () (company-emacs-eclim-setup)))
-
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
-  ;; (push '(other . "k&r") c-default-style)
-  ;; (when (file-exists-p "~/.local.el")
-  ;;   (load "~/.local.el"))
 
 
   ;; language server
