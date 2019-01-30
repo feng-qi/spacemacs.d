@@ -571,14 +571,15 @@ before packages are loaded."
   (setq hscroll-step 1)
   (setq deft-directory "~/github/notes")
 
-  (fengqi/define-key evil-normal-state-map
-                     "g[" 'backward-page ; https://github.com/lujun9972/emacs-document/blob/master/emacs-common/%E5%90%88%E7%90%86%E5%9C%B0%E5%9C%A8Emacs%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E9%A1%B5%E7%AC%A6.org
-                     "g]" 'forward-page
-                     "+" 'evil-numbers/inc-at-pt
-                     "-" 'evil-numbers/dec-at-pt)
-  (fengqi/define-key evil-visual-state-map
-                     "+" 'evil-numbers/inc-at-pt
-                     "-" 'evil-numbers/dec-at-pt)
+  (with-eval-after-load "evil"
+    (fengqi/define-key evil-normal-state-map
+                       "g[" 'backward-page ; https://github.com/lujun9972/emacs-document/blob/master/emacs-common/%E5%90%88%E7%90%86%E5%9C%B0%E5%9C%A8Emacs%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E9%A1%B5%E7%AC%A6.org
+                       "g]" 'forward-page
+                       "+" 'evil-numbers/inc-at-pt
+                       "-" 'evil-numbers/dec-at-pt)
+    (fengqi/define-key evil-visual-state-map
+                       "+" 'evil-numbers/inc-at-pt
+                       "-" 'evil-numbers/dec-at-pt))
   (with-eval-after-load "symbol-overlay"
     (fengqi/define-key symbol-overlay-map
                        (kbd "d") nil
@@ -599,33 +600,32 @@ before packages are loaded."
   (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
   (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
   (spacemacs/set-leader-keys
-    (kbd "xas") 'spacemacs/align-repeat-space
-    (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
+    (kbd "8")   'spacemacs/toggle-maximize-frame
     (kbd "bv")  'mark-whole-buffer
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
-    (kbd "fm")  'fengqi/move-current-buffer-file
-    (kbd "oe")  'eval-and-replace
-    ;; (kbd "om")  'evil-mc-mode
-    (kbd "oi")  'fengqi/count-words-region
+    (kbd "cs")  'fengqi/untabify-region-or-buffer
+    (kbd "ct")  'fengqi/tabify-region-or-buffer
+    (kbd "dc")  'fengqi/describe-buffer-file-coding-system
+    (kbd "dw")  'delete-trailing-whitespace
+    (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
+    (kbd "fCr") 'revert-buffer-with-coding-system
+    (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "oc")  'fengqi/copy-current-buffer-name
+    (kbd "oe")  'eval-and-replace
+    (kbd "oi")  'fengqi/count-words-region
     (kbd "op")  'plur-replace
     (kbd "or")  'fengqi/string-reverse
     (kbd "os")  'just-one-space
     (kbd "oy")  'youdao-dictionary-search-at-point+
-    (kbd "qq")  'fengqi/delete-frame
     (kbd "qQ")  'spacemacs/kill-emacs
+    (kbd "qq")  'fengqi/delete-frame
     (kbd "sc")  'fengqi/remove-highlight
-    (kbd "tt")  'fengqi/tabify-region-or-buffer
-    (kbd "tu")  'fengqi/untabify-region-or-buffer
+    (kbd "toi") 'org-toggle-inline-images
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus
-    (kbd "fCr") 'revert-buffer-with-coding-system
-    (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
-    (kbd "dw")  'delete-trailing-whitespace
-    (kbd "dc")  'fengqi/describe-buffer-file-coding-system
-    (kbd "toi") 'org-toggle-inline-images
-    (kbd "8")   'spacemacs/toggle-maximize-frame)
+    (kbd "xas") 'spacemacs/align-repeat-space
+    )
 
   (dolist (mode '(c-mode c++-mode))
     (evil-leader/set-key-for-mode mode
