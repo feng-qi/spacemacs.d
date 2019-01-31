@@ -545,7 +545,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (set-face-background 'default "unspecified-bg" (selected-frame))))
 
   (add-hook 'window-setup-hook 'on-after-init)
-  (setq doom-modeline-height 20)
   )
 
 (defun dotspacemacs/user-load ()
@@ -570,6 +569,8 @@ before packages are loaded."
   (setq-default python-shell-interpreter "python3")
   (setq hscroll-step 1)
   (setq deft-directory "~/github/notes")
+  (setq doom-modeline-height 20)
+  (setq doom-modeline-lsp t)
 
   (with-eval-after-load "evil"
     (fengqi/define-key evil-normal-state-map
