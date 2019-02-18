@@ -113,6 +113,8 @@ This function should only modify configuration layer settings."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(json-mode
+                                      presentation
+                                      org-tree-slide
                                       evil-search-highlight-persist
                                       exec-path-from-shell
                                       protobuf-mode)
@@ -654,7 +656,11 @@ before packages are loaded."
   (with-eval-after-load "org"
     ;; (define-key org-mode-map [(kbd "C-'")] nil)
     (fengqi/define-key org-mode-map
-                       (kbd "C-'") 'fengqi/upcase-previous-WORD)
+                       (kbd "C-'")    #'fengqi/upcase-previous-WORD
+                       (kbd "<f10>")  #'org-tree-slide-move-previous-tree
+                       (kbd "<f9>")   #'org-tree-slide-move-next-tree
+                       (kbd "<f8>")   #'org-tree-slide-mode)
+    (org-tree-slide-simple-profile)
     (require 'ox-md nil t)
     ;; (setq org-hide-leading-stars t)
     (setq org-export-with-section-numbers  nil
