@@ -86,8 +86,8 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
       (message string-to-reverse)
       (goto-char (point-min))
       (search-forward string-to-reverse)
-      (replace-match (string-reverse string-to-reverse))))
-  )
+      (replace-match (string-reverse string-to-reverse)))))
+
 
 (defun fengqi/describe-buffer-file-coding-system ()
   (interactive)
@@ -111,8 +111,8 @@ See also `count-words-region'"
 
       (kill-new (number-to-string charCount))
       (evil-exit-visual-state)
-      (message "Words: %d. Chars: %d." wordCount charCount)
-      )))
+      (message "Words: %d. Chars: %d." wordCount charCount))))
+
 
 (defun fengqi/remove-highlight ()
   "Remove highlights putted by evil-search and symbol-overlay."
@@ -149,3 +149,18 @@ See also `count-words-region'"
       (progn
         (tabify (point-min) (point-max) style)
         (message "Tabified buffer %s" (buffer-name))))))
+
+(defun fengqi/narrow-to-region-or-defun (&optional style)
+  "Narrow to current region or defun with fancy-narrow."
+  (interactive)
+  (progn
+    (unless fancy-narrow-mode (fancy-narrow-mode))
+    (if (region-active-p)
+        (fancy-narrow-to-region (region-beginning) (region-end))
+      (fancy-narrow-to-defun))))
+
+(defun fengqi/widen (&optional style)
+  "Widen built-in or fancy-narrowed region."
+  (interactive)
+  (if (fancy-narrow-active-p) (fancy-widen)
+    (widen)))

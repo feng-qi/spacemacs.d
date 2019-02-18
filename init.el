@@ -611,6 +611,8 @@ before packages are loaded."
     (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
     (kbd "fCr") 'revert-buffer-with-coding-system
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
+    (kbd "nn")  'fengqi/narrow-to-region-or-defun
+    (kbd "nw")  'fengqi/widen
     (kbd "oc")  'fengqi/copy-current-buffer-name
     (kbd "oe")  'eval-and-replace
     (kbd "oi")  'fengqi/count-words-region

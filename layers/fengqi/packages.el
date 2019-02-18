@@ -33,6 +33,7 @@
   '(
     bison-mode
     cuda-mode
+    fancy-narrow
     solarized-theme
     monokai-theme
     plur ; vim Abolish
@@ -70,6 +71,11 @@ Each entry is either:
 
 (defun fengqi/init-cuda-mode ()
   (use-package cuda-mode
+    :defer t
+    ))
+
+(defun fengqi/init-fancy-narrow ()
+  (use-package fancy-narrow
     :defer t
     ))
 
