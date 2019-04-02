@@ -563,6 +563,11 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (exec-path-from-shell-initialize)
+  (when (eq system-type 'darwin)
+    (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+    (setq mac-option-modifier  'alt
+          ns-function-modifier 'control
+          mac-command-modifier 'meta))
   ;; (when (file-exists-p "~/.spacemacs.d/funcs.el") (load "~/.spacemacs.d/funcs.el"))
   ;; (setq ivy-count-format "(%d/%d) ")
   ;; (setq powerline-default-separator nil)
@@ -618,6 +623,7 @@ before packages are loaded."
     (kbd "oc")  'fengqi/copy-current-buffer-name
     (kbd "oe")  'eval-and-replace
     (kbd "oi")  'fengqi/count-words-region
+    (kbd "oo")  'youdao-dictionary-play-voice-at-point
     (kbd "op")  'plur-replace
     (kbd "or")  'fengqi/string-reverse
     (kbd "os")  'just-one-space
@@ -672,6 +678,13 @@ before packages are loaded."
             (file    . find-file)
             (wl      . wl-other-frame)))
     )
+
+  (with-eval-after-load "treemacs"
+    (setq treemacs-position 'right))
+  (with-eval-after-load "dired"
+    (fengqi/define-key dired-mode-map
+                       (kbd "<return>") #'dired-find-alternate-file
+                       (kbd "^")        (lambda () (interactive) (find-alternate-file ".."))))
 
   ;; https://emacs.stackexchange.com/questions/9583/how-to-treat-underscore-as-part-of-the-word
   (with-eval-after-load 'evil
