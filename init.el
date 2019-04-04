@@ -41,6 +41,8 @@ This function should only modify configuration layer settings."
                     browse-url-generic-program "firefox")
      restclient
      deft
+     gnus
+     graphviz
      systemd
      lsp
      (treemacs :variables treemacs-position 'right)
@@ -112,6 +114,9 @@ This function should only modify configuration layer settings."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
+   ;; To use a local version of a package, use the `:location' property:
+   ;; '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
                                       presentation
                                       org-tree-slide
@@ -121,7 +126,7 @@ This function should only modify configuration layer settings."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
-   ;; A list of packages and/or extensions that will not be install and loaded.
+   ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(chinese-pyim
                                     chinese-word-at-point
                                     vi-tilde-fringe
@@ -284,7 +289,6 @@ It should only modify the values of Spacemacs settings."
                                :size ,(if (string= system-name "qi-laptop") 15 13)
                                :weight normal
                                :width normal)
-                               ;; :powerline-scale 1.1)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -317,15 +321,6 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-distinguish-gui-tab t
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
    dotspacemacs-remap-Y-to-y$ t
-   ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
-   ;; there. (default t)
-   dotspacemacs-retain-visual-state-on-shift t
-   ;; If non-nil, J and K move lines up and down when in visual mode.
-   ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
-   ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
-   ;; (default nil)
-   dotspacemacs-ex-substitute-global nil
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
 
@@ -568,9 +563,6 @@ before packages are loaded."
     (setq mac-option-modifier  'alt
           ns-function-modifier 'control
           mac-command-modifier 'meta))
-  ;; (when (file-exists-p "~/.spacemacs.d/funcs.el") (load "~/.spacemacs.d/funcs.el"))
-  ;; (setq ivy-count-format "(%d/%d) ")
-  ;; (setq powerline-default-separator nil)
   (global-company-mode t)
   (global-evil-search-highlight-persist t)
   (setq-default python-shell-interpreter "python3")
@@ -649,8 +641,6 @@ before packages are loaded."
               (setq TeX-engine 'xetex)
               (add-to-list 'TeX-command-list
                            '("XeLaTeX" "%`xelatex --synctex=1%(mode)%' %t" TeX-run-TeX nil t))))
-
-  ;; (add-hook 'compilation-mode-hook (lambda () (setq compilation-window-height 10)))
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
   (add-hook 'org-mode-hook (lambda () (progn
                                         (setq show-trailing-whitespace t)
@@ -678,20 +668,15 @@ before packages are loaded."
             (file    . find-file)
             (wl      . wl-other-frame)))
     )
-
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
     (fengqi/define-key dired-mode-map
                        (kbd "<return>") #'dired-find-alternate-file
+                       (kbd "c")        #'spacemacs/new-empty-buffer
                        (kbd "^")        (lambda () (interactive) (find-alternate-file ".."))))
-
-  ;; https://emacs.stackexchange.com/questions/9583/how-to-treat-underscore-as-part-of-the-word
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
-  ;; https://github.com/syl20bnr/spacemacs/blob/develop/doc/FAQ.org#include-underscores-in-word-motions
-  ;; (add-hook 'c++-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  ;; (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 
   ;; (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
 
@@ -704,22 +689,6 @@ before packages are loaded."
                 fill-column    80
                 truncate-lines t
                 c-basic-offset 4)
-  ;; (setq browse-url-browser-function 'eww-browse-url)
-  ;; (when window-system
-  ;;   (add-to-list 'default-frame-alist '(height . 52))
-  ;;   (add-to-list 'default-frame-alist '(width . 100))
-  ;;   (add-to-list 'default-frame-alist '(top . 0))
-  ;;   (add-to-list 'default-frame-alist '(left . 1100)))
-
-  (c-add-style "fengqi"
-               '((c-basic-offset . 2)
-                 (c-offset-alist
-                  (defun-open . 0)
-                  (defun-block-intro . +))))
-
-  ;; https://github.com/lujun9972/emacs-document/blob/master/emacs-common/%E8%AE%A9Emacs%E4%B8%BA%E4%BD%A0%E8%87%AA%E5%8A%A8%E6%8F%92%E5%85%A5%E5%86%85%E5%AE%B9(Emacs%E6%A8%A1%E6%9D%BF%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97).org
-  ;; (add-hook 'find-file-hook 'auto-insert)
-  ;; (define-auto-insert "CMakeLists.txt" "~/github/cpp_starter_project/CMakeLists.txt")
 
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
