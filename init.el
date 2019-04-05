@@ -118,6 +118,7 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
+                                      fd-dired
                                       presentation
                                       org-tree-slide
                                       evil-search-highlight-persist
@@ -533,7 +534,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq org-agenda-files '("~/org"))
   (setq org-pomodoro-length 40)
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks") "* TODO")))
+        '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+           "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")))
 
   ;; set transparency background when started from terminal
   (defun on-after-init ()
@@ -609,6 +611,7 @@ before packages are loaded."
     (kbd "dw")  'delete-trailing-whitespace
     (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
     (kbd "fCr") 'revert-buffer-with-coding-system
+    (kbd "fd")  'fd-dired
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'fengqi/widen
