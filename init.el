@@ -677,6 +677,7 @@ before packages are loaded."
     (fengqi/define-key dired-mode-map
                        (kbd "<return>") #'dired-find-alternate-file
                        (kbd "c")        #'spacemacs/new-empty-buffer
+                       (kbd "s")        #'fengqi/dired-sort-other
                        (kbd "^")        (lambda () (interactive) (find-alternate-file ".."))))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))

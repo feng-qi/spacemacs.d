@@ -164,3 +164,17 @@ See also `count-words-region'"
   (interactive)
   (if (fancy-narrow-active-p) (fancy-widen)
     (widen)))
+
+(defun fengqi/dired-sort-other ()
+  "Sort dired dir listing in different ways.
+Prompt for a choice.
+URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
+  (interactive)
+  (let (($sort-by (ido-completing-read "Sort by:" '("size" "date" "name" "directory-first"))))
+    (cond
+      ((equal $sort-by "size") (setq $arg "-alhS"))
+      ((equal $sort-by "date") (setq $arg "-alht"))
+      ((equal $sort-by "name") (setq $arg "-alh"))
+      ((equal $sort-by "directory-first") (setq $arg "-alh --group-directories-first"))
+      (t (error "logic error 09535")))
+    (dired-sort-other $arg)))
