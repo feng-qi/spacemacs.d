@@ -144,6 +144,7 @@ This function should only modify configuration layer settings."
                                     fancy-battery
                                     pangu-spacing
                                     spaceline
+                                    clojure-cheatsheet
                                     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -568,10 +569,13 @@ before packages are loaded."
   (global-company-mode t)
   (global-evil-search-highlight-persist t)
   (setq-default python-shell-interpreter "python3")
-  (setq hscroll-step 1)
-  (setq deft-directory "~/github/notes")
-  (setq doom-modeline-height 20)
-  (setq doom-modeline-lsp t)
+  (setq hscroll-step                  1
+        deft-directory                "~/github/notes"
+        doom-modeline-height          20
+        find-file-visit-truename      t
+        sp-highlight-pair-overlay     nil
+        sp-highlight-wrap-overlay     nil
+        sp-highlight-wrap-tag-overlay nil)
 
   (with-eval-after-load "evil"
     (fengqi/define-key evil-normal-state-map
@@ -630,14 +634,12 @@ before packages are loaded."
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus
-    (kbd "xas") 'spacemacs/align-repeat-space
-    )
+    (kbd "xas") 'spacemacs/align-repeat-space)
 
   (dolist (mode '(c-mode c++-mode))
     (evil-leader/set-key-for-mode mode
       "f f" 'spacemacs/clang-format-region-or-buffer
-      "o o" 'fengqi/set-compile-command
-      ))
+      "o o" 'fengqi/set-compile-command))
 
   (add-hook 'LaTeX-mode-hook
             (lambda ()
@@ -648,8 +650,7 @@ before packages are loaded."
   (add-hook 'org-mode-hook (lambda () (progn
                                         (setq show-trailing-whitespace t)
                                         (smartparens-mode t)
-                                        (auto-fill-mode t)
-                                        )))
+                                        (auto-fill-mode t))))
 
   ;; markdown exporter, more info: https://orgmode.org/worg/exporters/ox-overview.html
   (with-eval-after-load "org"
@@ -669,8 +670,7 @@ before packages are loaded."
             (vm-imap . vm-visit-imap-folder-other-frame)
             (gnus    . org-gnus-no-new-news)
             (file    . find-file)
-            (wl      . wl-other-frame)))
-    )
+            (wl      . wl-other-frame))))
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
@@ -683,10 +683,6 @@ before packages are loaded."
     (defalias #'forward-evil-word #'forward-evil-symbol))
 
   ;; (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
-
-  (setq sp-highlight-pair-overlay     nil
-        sp-highlight-wrap-overlay     nil
-        sp-highlight-wrap-tag-overlay nil)
 
   (setq c-default-style "k&r")
   (setq-default tab-width      4
