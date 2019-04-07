@@ -584,6 +584,10 @@ before packages are loaded."
                        "+" 'evil-numbers/inc-at-pt
                        "-" 'evil-numbers/dec-at-pt)
     (fengqi/define-key evil-visual-state-map
+                       "i9" #'evil-inner-paren
+                       "i0" #'evil-inner-paren
+                       "a9" #'evil-a-paren
+                       "a0" #'evil-a-paren
                        "+" 'evil-numbers/inc-at-pt
                        "-" 'evil-numbers/dec-at-pt))
   (with-eval-after-load "symbol-overlay"

@@ -3,7 +3,9 @@
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
-  (backward-kill-sexp)
+  (if (region-active-p)
+      (sp-kill-region (region-beginning) (region-end))
+    (sp-kill-sexp))
   (condition-case nil
       (prin1 (eval (read (current-kill 0)))
              (current-buffer))
