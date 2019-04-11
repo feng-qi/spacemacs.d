@@ -119,6 +119,10 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
                                       fd-dired
+                                      all-the-icons-dired
+                                      dired-subtree
+                                      dired-narrow
+                                      dired-filter
                                       presentation
                                       org-tree-slide
                                       evil-search-highlight-persist
@@ -577,6 +581,11 @@ before packages are loaded."
         sp-highlight-wrap-overlay     nil
         sp-highlight-wrap-tag-overlay nil)
 
+  (add-to-list 'auto-mode-alist '("\\.def\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.c\\'"   . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}t\\.[[:alnum:]-_]+\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}r\\.[[:alnum:]-_]+\\'" . lisp-mode))
+
   (with-eval-after-load "evil"
     (fengqi/define-key evil-normal-state-map
                        "g[" 'backward-page ; https://github.com/lujun9972/emacs-document/blob/master/emacs-common/%E5%90%88%E7%90%86%E5%9C%B0%E5%9C%A8Emacs%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E9%A1%B5%E7%AC%A6.org
@@ -624,12 +633,12 @@ before packages are loaded."
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'fengqi/widen
     (kbd "oc")  'fengqi/copy-current-buffer-name
+    (kbd "od")  'ediff-buffers
     (kbd "oe")  'eval-and-replace
     (kbd "oi")  'fengqi/count-words-region
     (kbd "oo")  'youdao-dictionary-play-voice-at-point
     (kbd "op")  'plur-replace
     (kbd "or")  'fengqi/string-reverse
-    (kbd "os")  'just-one-space
     (kbd "oy")  'youdao-dictionary-search-at-point+
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
@@ -678,8 +687,12 @@ before packages are loaded."
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    (add-hook 'dired-mode-hook 'dired-filter-mode)
     (fengqi/define-key dired-mode-map
                        (kbd "<return>") #'dired-find-alternate-file
+                       (kbd "<tab>")    #'dired-subtree-toggle
+                       (kbd "<S-tab>")  #'dired-subtree-cycle
                        (kbd "c")        #'spacemacs/new-empty-buffer
                        (kbd "s")        #'fengqi/dired-sort-other
                        (kbd "^")        (lambda () (interactive) (find-alternate-file ".."))))
