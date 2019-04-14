@@ -1,4 +1,21 @@
-(spacemacs|create-align-repeat-x "space" " " nil t)
+(defun fengqi/aligh-repeat-whitespace (start end)
+  "Repeat alignment with respect to the given regular expression."
+  (interactive "r")
+  (align-regexp start end "\\([[:blank:]]+\\)[^[:space:]]+" 1 1 t))
+
+(defun fengqi/right-align-rectangle (start end)
+  "Right-align selected rectangle.
+See https://stackoverflow.com/questions/10914813/generic-right-align-function"
+  (interactive "r")
+  (let ((indent-tabs-mode nil))
+    (apply-on-rectangle (lambda (c0 c1)
+                          (move-to-column c1 t)
+                          (let ((start (- (point) (- c1 c0)))
+                                (end   (point)))
+                            (when (re-search-backward "\\S-" start t)
+                              (transpose-regions start (match-end 0) (match-end 0) end))))
+                        start end))
+  (when indent-tabs-mode (tabify start end)))
 
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
@@ -20,11 +37,26 @@
   "Make the WORD before cursor upper case."
   (interactive)
   (save-excursion
-    (setq end (point))
-    (skip-chars-backward "[:alnum:]-_")
-    (setq begin (point))
-    ;; (message (concat (number-to-string begin) " " (number-to-string end)))
-    (upcase-region begin end)))
+    (let ((end (point))
+          (beg (1+ (re-search-backward "[^[:alnum:]-_]"))))
+      (upcase-region beg end))))
+
+(defmacro fengqi|???-region-or-symbol-at-point (name)
+  (let ((new-func (intern (concat "fengqi/" name "-region-or-symbol-at-point")))
+        (case-func (intern (concat name "-region"))))
+    `(defun ,new-func ()
+       ,(concat "Convert region or symbol at point to " name " case.")
+       (interactive)
+       (save-excursion
+         (if (use-region-p)
+             (,case-func (region-beginning) (region-end))
+           (let* ((bounds (bounds-of-thing-at-point 'symbol))
+                  (end (car bounds))
+                  (beg (cdr bounds)))
+             (,case-func beg end)))))))
+
+(fengqi|???-region-or-symbol-at-point "upcase")
+(fengqi|???-region-or-symbol-at-point "downcase")
 
 (defun fengqi/insert-current-buffer-name ()
   "Insert the full path file name into the current buffer.
@@ -82,14 +114,10 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
 
 (defun fengqi/string-reverse (beg end)
   (interactive "r")
-  (save-restriction
-    (narrow-to-region beg end)
-    (let ((string-to-reverse (buffer-substring-no-properties (point-min) (point-max))))
-      (message string-to-reverse)
-      (goto-char (point-min))
-      (search-forward string-to-reverse)
-      (replace-match (string-reverse string-to-reverse)))))
-
+  (save-excursion
+    (when (use-region-p)
+      (kill-region beg end)
+      (insert (string-reverse (substring-no-properties (car kill-ring)))))))
 
 (defun fengqi/describe-buffer-file-coding-system ()
   (interactive)
@@ -173,10 +201,9 @@ Prompt for a choice.
 URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
   (interactive)
   (let (($sort-by (ido-completing-read "Sort by:" '("size" "date" "name" "directory-first"))))
-    (cond
-      ((equal $sort-by "size") (setq $arg "-alhS"))
-      ((equal $sort-by "date") (setq $arg "-alht"))
-      ((equal $sort-by "name") (setq $arg "-alh"))
-      ((equal $sort-by "directory-first") (setq $arg "-alh --group-directories-first"))
-      (t (error "logic error 09535")))
+    (cond ((equal $sort-by "size") (setq $arg "-alhS"))
+          ((equal $sort-by "date") (setq $arg "-alht"))
+          ((equal $sort-by "name") (setq $arg "-alh"))
+          ((equal $sort-by "directory-first") (setq $arg "-alh --group-directories-first"))
+          (t (error "logic error 09535")))
     (dired-sort-other $arg)))

@@ -590,6 +590,8 @@ before packages are loaded."
     (fengqi/define-key evil-normal-state-map
                        "g[" 'backward-page ; https://github.com/lujun9972/emacs-document/blob/master/emacs-common/%E5%90%88%E7%90%86%E5%9C%B0%E5%9C%A8Emacs%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E9%A1%B5%E7%AC%A6.org
                        "g]" 'forward-page
+                       "gu" 'evil-upcase
+                       "gl" 'evil-downcase
                        "+" 'evil-numbers/inc-at-pt
                        "-" 'evil-numbers/dec-at-pt)
     (fengqi/define-key evil-visual-state-map
@@ -597,6 +599,7 @@ before packages are loaded."
                        "i0" #'evil-inner-paren
                        "a9" #'evil-a-paren
                        "a0" #'evil-a-paren
+                       "is" #'evil-inner-symbol
                        "+" 'evil-numbers/inc-at-pt
                        "-" 'evil-numbers/dec-at-pt))
   (with-eval-after-load "symbol-overlay"
@@ -612,12 +615,13 @@ before packages are loaded."
                        (kbd "C-c C-y") #'term-paste))
 
   (global-set-key (kbd "C-c i") 'ido-insert-buffer)
-  (global-set-key (kbd "C-'") 'fengqi/upcase-previous-WORD)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (global-set-key (kbd "M-i") 'symbol-overlay-put)
   (global-set-key (kbd "M-e") 'symbol-overlay-put)
   (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
   (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
+  (global-set-key (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point)
+  (global-set-key (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point)
   (spacemacs/set-leader-keys
     (kbd "8")   'spacemacs/toggle-maximize-frame
     (kbd "bv")  'mark-whole-buffer
@@ -647,7 +651,7 @@ before packages are loaded."
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus
-    (kbd "xas") 'spacemacs/align-repeat-space)
+    (kbd "xas") 'fengqi/aligh-repeat-whitespace)
 
   (dolist (mode '(c-mode c++-mode))
     (evil-leader/set-key-for-mode mode
