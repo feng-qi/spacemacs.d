@@ -65,6 +65,7 @@ This function should only modify configuration layer settings."
      (clojure :variables clojure-enable-fancify-symbols nil)
      ;; ivy
      emacs-lisp
+     scheme
      parinfer
      (go :variables go-tab-width 4)
      haskell
