@@ -40,7 +40,6 @@
     nhexl-mode
     thrift
     zenburn-theme
-    symbol-overlay
     )
   "The list of Lisp packages required by the fengqi layer.
 
@@ -111,11 +110,6 @@ Each entry is either:
 
 (defun fengqi/init-zenburn-theme ()
   (use-package zenburn-theme
-    :defer t
-    ))
-
-(defun fengqi/init-symbol-overlay ()
-  (use-package symbol-overlay
     :defer t
     ))
 
