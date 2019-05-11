@@ -652,7 +652,8 @@ before packages are loaded."
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus
-    (kbd "xas") 'fengqi/aligh-repeat-whitespace)
+    (kbd "xas") 'fengqi/aligh-repeat-whitespace
+    (kbd "y")   'fengqi/kill-and-osc52-send)
 
   (dolist (mode '(c-mode c++-mode))
     (evil-leader/set-key-for-mode mode
@@ -695,7 +696,10 @@ before packages are loaded."
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (add-hook 'dired-mode-hook 'dired-filter-mode)
     (fengqi/define-key dired-mode-map
-                       (kbd "<return>") #'dired-find-alternate-file
+                       (kbd "RET")      #'dired-find-alternate-file
+                       (kbd "TAB")      #'dired-subtree-toggle
+                       (kbd "S-TAB")    #'dired-subtree-cycle
+                       (kbd "<return>") #'dired-find-alternate-file ; for darwin
                        (kbd "<tab>")    #'dired-subtree-toggle
                        (kbd "<S-tab>")  #'dired-subtree-cycle
                        (kbd "c")        #'spacemacs/new-empty-buffer

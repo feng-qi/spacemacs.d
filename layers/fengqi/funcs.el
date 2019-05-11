@@ -207,3 +207,16 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
           ((equal $sort-by "directory-first") (setq $arg "-alh --group-directories-first"))
           (t (error "logic error 09535")))
     (dired-sort-other $arg)))
+
+(defun fengqi--osc52-send (content)
+  "Send string using OSC 52."
+  (send-string-to-terminal (concat "\e]52;c;" (base64-encode-string content t) "\07")))
+
+(defun fengqi/kill-and-osc52-send (begin end)
+  "Add selected text to kill ring and send by osc52."
+  (interactive "r")
+  (let ((content (buffer-substring-no-properties begin end)))
+    (kill-new content)
+    (fengqi--osc52-send content)
+    (deactivate-mark)
+    (message "osc52 sent: `%s'" content)))
