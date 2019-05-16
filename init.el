@@ -605,12 +605,9 @@ before packages are loaded."
                        "-" 'evil-numbers/dec-at-pt))
   (with-eval-after-load "symbol-overlay"
     (fengqi/define-key symbol-overlay-map
-                       (kbd "d") nil
-                       (kbd "e") nil
-                       (kbd "h") nil
-                       (kbd "i") nil
-                       (kbd "q") nil
-                       (kbd "w") nil))
+                       (kbd "n") #'symbol-overlay-jump-next
+                       (kbd "p") #'symbol-overlay-jump-prev
+                       (kbd "r") #'symbol-overlay-rename))
   (with-eval-after-load "term"
     (fengqi/define-key term-raw-map
                        (kbd "C-c C-y") #'term-paste))
@@ -639,11 +636,13 @@ before packages are loaded."
     (kbd "nw")  'fengqi/widen
     (kbd "oc")  'fengqi/copy-current-buffer-name
     (kbd "od")  'ediff-buffers
-    (kbd "oe")  'eval-and-replace
+    (kbd "oee") 'eval-and-replace
+    (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
+    (kbd "oep") 'fengqi/eval-region-or-line-by-python3
+    (kbd "oez") 'fengqi/eval-region-or-line-by-zsh
     (kbd "oi")  'fengqi/count-words-region
     (kbd "oo")  'youdao-dictionary-play-voice-at-point
     (kbd "op")  'plur-replace
-    (kbd "or")  'fengqi/string-reverse
     (kbd "oy")  'youdao-dictionary-search-at-point+
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
