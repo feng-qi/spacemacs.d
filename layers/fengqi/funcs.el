@@ -21,7 +21,7 @@ See https://stackoverflow.com/questions/10914813/generic-right-align-function"
   "Replace the preceding sexp with its value."
   (interactive)
   (if (region-active-p)
-      (sp-kill-region (region-beginning) (region-end))
+      (kill-region (region-beginning) (region-end))
     (sp-kill-sexp))
   (condition-case nil
       (prin1 (eval (read (current-kill 0)))
@@ -123,27 +123,6 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
   (interactive)
   (message "%s" buffer-file-coding-system))
 
-(defun fengqi/count-words-region (posBegin posEnd)
-  "Print number of words and chars in region.
-
-See URL `http://ergoemacs.org/emacs/elisp_count-region.html'.
-See also `count-words-region'"
-  (interactive "r")
-  (message "Counting …")
-  (save-excursion
-    (let (wordCount charCount)
-      (setq wordCount 0)
-      (setq charCount (- posEnd posBegin))
-      (goto-char posBegin)
-      (while (and (< (point) posEnd)
-                  (re-search-forward "\\w+\\W*" posEnd t))
-        (setq wordCount (1+ wordCount)))
-
-      (kill-new (number-to-string charCount))
-      (evil-exit-visual-state)
-      (message "Words: %d. Chars: %d." wordCount charCount))))
-
-
 (defun fengqi/remove-highlight ()
   "Remove highlights putted by evil-search and symbol-overlay."
   (interactive)
@@ -237,3 +216,11 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 (fengqi|eval-region-or-line-by-??? "zsh" "-i -c")
 (fengqi|eval-region-or-line-by-??? "bash" "-i -c")
 (fengqi|eval-region-or-line-by-??? "python3" "-c")
+
+(defun fengqi/generate-number-sequence ()
+  (interactive)
+  (let ((start (string-to-number (read-string "Range start (1): " nil nil "1")))
+        (end   (string-to-number (read-string "Range end (7): "   nil nil "7")))
+        (separator (read-string "Separator ( ): " nil nil " ")))
+    (message "[%d %s %d]" start separator end)
+    (insert (mapconcat 'number-to-string (number-sequence start end) separator))))

@@ -640,7 +640,7 @@ before packages are loaded."
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
     (kbd "oep") 'fengqi/eval-region-or-line-by-python3
     (kbd "oez") 'fengqi/eval-region-or-line-by-zsh
-    (kbd "oi")  'fengqi/count-words-region
+    (kbd "oi")  'fengqi/generate-number-sequence
     (kbd "oo")  'youdao-dictionary-play-voice-at-point
     (kbd "op")  'plur-replace
     (kbd "oy")  'youdao-dictionary-search-at-point+
