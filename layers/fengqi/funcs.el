@@ -224,3 +224,12 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
         (separator (read-string "Separator ( ): " nil nil " ")))
     (message "[%d %s %d]" start separator end)
     (insert (mapconcat 'number-to-string (number-sequence start end) separator))))
+
+(defun fengqi/join (sequence separator)
+  "Concat sequence as string."
+  (let ((fn (cond ((seq-empty-p sequence)           #'identity)
+                  ((seq-every-p #'numberp sequence) #'number-to-string)
+                  ((seq-every-p #'symbolp sequence) #'symbol-name)
+                  ((seq-every-p #'stringp sequence) #'identity)
+                  (t (user-error "Sequence of different type")))))
+    (mapconcat fn sequence separator)))

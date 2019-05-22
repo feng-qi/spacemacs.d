@@ -607,14 +607,14 @@ before packages are loaded."
     (fengqi/define-key symbol-overlay-map
                        (kbd "n") #'symbol-overlay-jump-next
                        (kbd "p") #'symbol-overlay-jump-prev
-                       (kbd "r") #'symbol-overlay-rename))
+                       (kbd "r") #'symbol-overlay-rename
+                       (kbd "t") #'symbol-overlay-toggle-in-scope))
   (with-eval-after-load "term"
     (fengqi/define-key term-raw-map
                        (kbd "C-c C-y") #'term-paste))
 
   (global-set-key (kbd "C-c i") 'ido-insert-buffer)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "M-i") 'symbol-overlay-put)
   (global-set-key (kbd "M-e") 'symbol-overlay-put)
   (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
   (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
@@ -634,7 +634,6 @@ before packages are loaded."
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'fengqi/widen
-    (kbd "oc")  'fengqi/copy-current-buffer-name
     (kbd "od")  'ediff-buffers
     (kbd "oee") 'eval-and-replace
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
