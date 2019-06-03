@@ -53,6 +53,7 @@ This function should only modify configuration layer settings."
      better-defaults
      ;; semantic
      imenu-list
+     ibuffer
      asm
      cmake
      (c-c++ :variables
@@ -546,7 +547,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; set transparency background when started from terminal
   (defun on-after-init ()
     (unless (display-graphic-p (selected-frame))
-      (load-theme 'spacemacs-dark)
       (set-face-background 'default "unspecified-bg" (selected-frame))))
 
   (add-hook 'window-setup-hook 'on-after-init)
@@ -568,7 +568,8 @@ before packages are loaded."
   (exec-path-from-shell-initialize)
   (when (eq system-type 'darwin)
     (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
-    (setq mac-option-modifier  'alt
+    (setq python-shell-interpreter-args ""
+          mac-option-modifier  'meta
           ns-function-modifier 'control
           mac-command-modifier 'meta))
   (global-company-mode t)
@@ -705,8 +706,6 @@ before packages are loaded."
                        (kbd "^")        (lambda () (interactive) (find-alternate-file ".."))))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
-
-  ;; (add-to-list 'auto-mode-alist '("\\.cu\\'" . c-mode))
 
   (setq c-default-style "k&r")
   (setq-default tab-width      4
