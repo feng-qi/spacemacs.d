@@ -136,7 +136,7 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
   (delete-frame))
 
 (defun fengqi/untabify-region-or-buffer (&optional style)
-  "Untabify the current region or buffer with `untabify' according to STYLE."
+  "Untabify region or buffer with `untabify' according to STYLE."
   (interactive)
   (save-excursion
     (if (region-active-p)
@@ -148,16 +148,17 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
         (message "Untabified buffer %s" (buffer-name))))))
 
 (defun fengqi/tabify-region-or-buffer (&optional style)
-  "Tabify the current region or buffer with `tabify' according to STYLE."
+  "Tabify only leading spaces in region or buffer with `tabify' according to STYLE."
   (interactive)
   (save-excursion
-    (if (region-active-p)
+    (let* ((tabify-regexp "^\t* [ \t]+"))
+      (if (region-active-p)
+          (progn
+            (tabify (region-beginning) (region-end) style)
+            (message "Tabified region"))
         (progn
-          (tabify (region-beginning) (region-end) style)
-          (message "Tabified region"))
-      (progn
-        (tabify (point-min) (point-max) style)
-        (message "Tabified buffer %s" (buffer-name))))))
+          (tabify (point-min) (point-max) style)
+          (message "Tabified buffer %s" (buffer-name)))))))
 
 (defun fengqi/narrow-to-region-or-defun (&optional style)
   "Narrow to current region or defun with fancy-narrow."

@@ -129,6 +129,7 @@ This function should only modify configuration layer settings."
                                       org-tree-slide
                                       evil-search-highlight-persist
                                       exec-path-from-shell
+                                      ;; (targets :location (recipe :fetcher github :repo "noctuid/targets.el"))
                                       protobuf-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
