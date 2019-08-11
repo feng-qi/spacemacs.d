@@ -631,7 +631,6 @@ before packages are loaded."
                        (kbd "C-c C-y") #'term-paste))
 
   (global-set-key (kbd "C-c i") 'ido-insert-buffer)
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (global-set-key (kbd "M-e") 'symbol-overlay-put)
   (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
   (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
