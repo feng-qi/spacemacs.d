@@ -61,7 +61,7 @@ This function should only modify configuration layer settings."
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
      (chinese :variables
-              chinese-default-input-method 'wubi
+              pyim-default-scheme 'wubi
               chinese-enable-youdao-dict t)
      (clojure :variables clojure-enable-fancify-symbols nil)
      ;; ivy
@@ -120,6 +120,7 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
+                                      pyim-wbdict
                                       fd-dired
                                       all-the-icons-dired
                                       dired-subtree
@@ -715,6 +716,9 @@ before packages are loaded."
                 c-basic-offset 4)
 
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
+
+  ;; pyim-wbdict setup
+  (pyim-wbdict-v98-enable)
 
 
   ;; language server
