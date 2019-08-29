@@ -582,6 +582,8 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (exec-path-from-shell-initialize)
+  (setq shell-file-name "bash")
+  (setq shell-command-switch "-ic")
   (when (eq system-type 'darwin)
     (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
     (setq python-shell-interpreter-args ""
