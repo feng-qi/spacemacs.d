@@ -128,7 +128,6 @@ This function should only modify configuration layer settings."
                                       dired-filter
                                       presentation
                                       org-tree-slide
-                                      evil-search-highlight-persist
                                       exec-path-from-shell
                                       ;; (targets :location (recipe :fetcher github :repo "noctuid/targets.el"))
                                       protobuf-mode)
@@ -591,7 +590,6 @@ before packages are loaded."
           ns-function-modifier 'control
           mac-command-modifier 'meta))
   (global-company-mode t)
-  (global-evil-search-highlight-persist t)
   (setq-default python-shell-interpreter "python3")
   (setq hscroll-step                  1
         deft-directory                "~/github/notes"
@@ -711,6 +709,7 @@ before packages are loaded."
   (with-eval-after-load "dired"
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (add-hook 'dired-mode-hook 'dired-filter-mode)
+    (setq wdired-allow-to-change-permissions t)
     (fengqi/define-key dired-mode-map
                        (kbd "RET")      #'dired-find-alternate-file
                        (kbd "TAB")      #'dired-subtree-toggle

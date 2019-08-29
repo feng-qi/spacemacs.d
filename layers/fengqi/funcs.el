@@ -218,13 +218,17 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 (fengqi|eval-region-or-line-by-??? "bash" "-i -c")
 (fengqi|eval-region-or-line-by-??? "python3" "-c")
 
-(defun fengqi/generate-number-sequence ()
-  (interactive)
+(defun fengqi/generate-number-sequence (step)
+  (interactive "P")
   (let ((start (string-to-number (read-string "Range start (1): " nil nil "1")))
         (end   (string-to-number (read-string "Range end (7): "   nil nil "7")))
+        (step  (if step step 1))
         (separator (read-string "Separator ( ): " nil nil " ")))
-    (message "[%d %s %d]" start separator end)
-    (insert (mapconcat 'number-to-string (number-sequence start end) separator))))
+    (message "[%d%s%d%s%d]" start separator step separator end)
+    (or (and (> step 0) (< start end))
+        (and (< step 0) (> start end))
+        (user-error "Infinite sequence"))
+    (insert (mapconcat 'number-to-string (number-sequence start end step) separator))))
 
 (defun fengqi/join (sequence separator)
   "Concat sequence as string."
