@@ -582,7 +582,7 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (exec-path-from-shell-initialize)
   (setq shell-file-name "bash")
-  (setq shell-command-switch "-ic")
+  (setq shell-command-switch "-lc")
   (when (eq system-type 'darwin)
     (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
     (setq python-shell-interpreter-args ""
@@ -630,7 +630,7 @@ before packages are loaded."
     (fengqi/define-key term-raw-map
                        (kbd "C-c C-y") #'term-paste))
 
-  (global-set-key (kbd "C-c i") 'ido-insert-buffer)
+  ;; (global-set-key (kbd "C-c i") 'ido-insert-buffer)
   (global-set-key (kbd "M-e") 'symbol-overlay-put)
   (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
   (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
@@ -695,6 +695,7 @@ before packages are loaded."
                        (kbd "<f8>")   #'org-tree-slide-mode)
     (org-tree-slide-simple-profile)
     (require 'ox-md nil t)
+    (require 'org-tempo)
     ;; (setq org-hide-leading-stars t)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil)
@@ -711,15 +712,12 @@ before packages are loaded."
     (add-hook 'dired-mode-hook 'dired-filter-mode)
     (setq wdired-allow-to-change-permissions t)
     (fengqi/define-key dired-mode-map
-                       (kbd "RET")      #'dired-find-alternate-file
                        (kbd "TAB")      #'dired-subtree-toggle
-                       (kbd "S-TAB")    #'dired-subtree-cycle
-                       (kbd "<return>") #'dired-find-alternate-file ; for darwin
                        (kbd "<tab>")    #'dired-subtree-toggle
+                       (kbd "S-TAB")    #'dired-subtree-cycle
                        (kbd "<S-tab>")  #'dired-subtree-cycle
-                       (kbd "c")        #'spacemacs/new-empty-buffer
                        (kbd "s")        #'fengqi/dired-sort-other
-                       (kbd "^")        (lambda () (interactive) (find-alternate-file ".."))))
+                       (kbd "f")        #'evil-find-char))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
 
