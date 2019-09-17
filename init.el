@@ -121,7 +121,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
                                       pyim-wbdict
-                                      fd-dired
+                                      ;; fd-dired
                                       all-the-icons-dired
                                       dired-subtree
                                       dired-narrow
@@ -646,7 +646,6 @@ before packages are loaded."
     (kbd "dw")  'delete-trailing-whitespace
     (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
     (kbd "fCr") 'revert-buffer-with-coding-system
-    (kbd "fd")  'fd-dired
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'fengqi/widen
