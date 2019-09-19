@@ -55,6 +55,7 @@ This function should only modify configuration layer settings."
      imenu-list
      ibuffer
      asm
+     gpu
      cmake
      (c-c++ :variables
             c-c++-enable-c++11 t

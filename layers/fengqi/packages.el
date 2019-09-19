@@ -32,7 +32,6 @@
 (defconst fengqi-packages
   '(
     bison-mode
-    cuda-mode
     fancy-narrow
     solarized-theme
     monokai-theme
@@ -67,11 +66,6 @@ Each entry is either:
 
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
-
-(defun fengqi/init-cuda-mode ()
-  (use-package cuda-mode
-    :defer t
-    ))
 
 (defun fengqi/init-fancy-narrow ()
   (use-package fancy-narrow
