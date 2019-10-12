@@ -40,11 +40,13 @@ This function should only modify configuration layer settings."
                     engine/browser-function 'browse-url-generic
                     browse-url-generic-program "firefox")
      restclient
-     deft
      gnus
      graphviz
      systemd
-     lsp
+     (lsp :variables
+          lsp-enable-file-watchers nil
+          lsp-ui-doc-enable nil
+          lsp-ui-sideline-enable nil)
      (treemacs :variables treemacs-position 'right)
      docker
      nginx
