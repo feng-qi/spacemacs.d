@@ -585,9 +585,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (exec-path-from-shell-initialize)
-  (setq shell-file-name "bash")
-  (setq shell-command-switch "-lc")
+  (when (not (eq system-type 'windows-nt))
+    (setq shell-file-name "bash")
+    (setq shell-command-switch "-lc")
+    (exec-path-from-shell-initialize))
   (when (eq system-type 'darwin)
     (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
     (setq python-shell-interpreter-args ""
@@ -636,6 +637,7 @@ before packages are loaded."
 
   ;; (global-set-key (kbd "C-c i") 'ido-insert-buffer)
   (global-set-key (kbd "M-e") 'symbol-overlay-put)
+  (global-set-key (kbd "M-i") 'symbol-overlay-put)
   (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
   (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
   (global-set-key (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point)
