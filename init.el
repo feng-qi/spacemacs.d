@@ -560,7 +560,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq org-pomodoro-length 40)
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-           "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")))
+           "* TODO [#A] %?\nSCHEDULED: %T\n  %a\n")
+          ("?" "Question" entry (file+headline "~/org/questions.org" "Questions")
+           "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n")))
 
   ;; set transparency background when started from terminal
   (defun on-after-init ()
@@ -595,7 +597,6 @@ before packages are loaded."
   (global-company-mode t)
   (setq-default python-shell-interpreter "python3")
   (setq hscroll-step                  1
-        deft-directory                "~/github/notes"
         doom-modeline-height          20
         find-file-visit-truename      t
         sp-highlight-pair-overlay     nil
