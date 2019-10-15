@@ -721,6 +721,7 @@ before packages are loaded."
                        (kbd "<tab>")    #'dired-subtree-toggle
                        (kbd "S-TAB")    #'dired-subtree-cycle
                        (kbd "<S-tab>")  #'dired-subtree-cycle
+                       (kbd "i")        #'dired-toggle-read-only
                        (kbd "s")        #'fengqi/dired-sort-other
                        (kbd "f")        #'evil-find-char))
   (with-eval-after-load 'evil
