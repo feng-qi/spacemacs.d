@@ -663,6 +663,7 @@ before packages are loaded."
     (kbd "oi")  'fengqi/generate-number-sequence
     (kbd "oo")  'youdao-dictionary-play-voice-at-point
     (kbd "op")  'plur-replace
+    (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard
     (kbd "oy")  'youdao-dictionary-search-at-point+
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame

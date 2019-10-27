@@ -238,3 +238,12 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
                   ((seq-every-p #'stringp sequence) #'identity)
                   (t (user-error "Sequence of different type")))))
     (mapconcat fn sequence separator)))
+
+(defun fengqi/qrencode-from-region-or-clipboard ()
+  (interactive)
+  (let ((content (if (use-region-p) (buffer-substring-no-properties (region-beginning) (region-end))
+                  (current-kill 0))))
+    (->> (shell-quote-argument content)
+         (concat "qrencode -t utf8 ")
+         shell-command-to-string
+         insert)))
