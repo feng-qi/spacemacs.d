@@ -241,9 +241,22 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 
 (defun fengqi/qrencode-from-region-or-clipboard ()
   (interactive)
-  (let ((content (if (use-region-p) (buffer-substring-no-properties (region-beginning) (region-end))
-                  (current-kill 0))))
-    (->> (shell-quote-argument content)
-         (concat "qrencode -t utf8 ")
-         shell-command-to-string
-         insert)))
+  (let* ((input (if (use-region-p)
+                    (buffer-substring-no-properties (region-beginning) (region-end))
+                  (current-kill 0)))
+         (output (->> (shell-quote-argument input)
+                      (concat "qrencode -t utf8 ")
+                      shell-command-to-string)))
+     (when (use-region-p)
+       (progn (deactivate-mark) (next-line)))
+     (insert output)))
+
+(defun fengqi/set-frame-position-width-height (x y w h)
+  (let ((frame (selected-frame)))
+    (set-frame-position frame x y)
+    (set-frame-width frame w)
+    (set-frame-height frame h)))
+
+(defun fengqi/go ()
+  (interactive)
+  (fengqi/set-frame-position-width-height 1040 30 96 51))
