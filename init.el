@@ -96,6 +96,7 @@ This function should only modify configuration layer settings."
      csharp
      java
      ;; javascript
+     csv
      latex
      markdown
      ;; (org :variables org-enable-reveal-js-support t)
@@ -675,10 +676,13 @@ before packages are loaded."
     (kbd "xas") 'fengqi/aligh-repeat-whitespace
     (kbd "y")   'fengqi/kill-and-osc52-send)
 
-  (dolist (mode '(c-mode c++-mode))
-    (evil-leader/set-key-for-mode mode
-      "f f" 'spacemacs/clang-format-region-or-buffer
-      "o o" 'fengqi/set-compile-command))
+  (with-eval-after-load 'cc-mode
+    (fengqi/define-key c++-mode-map
+                       (kbd "M-e") #'symbol-overlay-put)
+    (dolist (mode '(c-mode c++-mode))
+      (evil-leader/set-key-for-mode mode
+        "f f" 'spacemacs/clang-format-region-or-buffer
+        "o o" 'fengqi/set-compile-command)))
 
   (add-hook 'LaTeX-mode-hook
             (lambda ()
