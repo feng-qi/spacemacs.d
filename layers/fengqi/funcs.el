@@ -167,7 +167,8 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
     (unless fancy-narrow-mode (fancy-narrow-mode))
     (if (region-active-p)
         (fancy-narrow-to-region (region-beginning) (region-end))
-      (fancy-narrow-to-defun))))
+      (fancy-narrow-to-defun))
+    (deactivate-mark)))
 
 (defun fengqi/widen (&optional style)
   "Widen built-in or fancy-narrowed region."
@@ -240,16 +241,18 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
     (mapconcat fn sequence separator)))
 
 (defun fengqi/qrencode-from-region-or-clipboard ()
+  ;; I didn't use `shell-command-to-string' for I have to escape the characters
+  ;; shell used if so. And shell-command-on-region wouldn't have this problem.
   (interactive)
   (let* ((input (if (use-region-p)
                     (buffer-substring-no-properties (region-beginning) (region-end))
-                  (current-kill 0)))
-         (output (->> (shell-quote-argument input)
-                      (concat "qrencode -t utf8 ")
-                      shell-command-to-string)))
-     (when (use-region-p)
-       (progn (deactivate-mark) (next-line)))
-     (insert output)))
+                  (current-kill 0))))
+    (deactivate-mark)
+    (with-temp-buffer
+      (insert input)
+      (shell-command-on-region (point-min) (point-max) "qrencode -t utf8" t t)
+      (message "QR code for `%s':\n%s" input
+               (buffer-substring-no-properties (point-min) (point-max))))))
 
 (defun fengqi/set-frame-position-width-height (x y w h)
   (let ((frame (selected-frame)))
