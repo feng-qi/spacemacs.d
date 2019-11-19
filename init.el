@@ -204,7 +204,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    ;; (default 5)
-   dotspacemacs-elpa-timeout 5
+   dotspacemacs-elpa-timeout 10
 
    ;; Set `gc-cons-threshold' and `gc-cons-percentage' when startup finishes.
    ;; This is an advanced option and should not be changed unless you suspect
@@ -636,6 +636,7 @@ before packages are loaded."
     (fengqi/define-key term-raw-map
                        (kbd "C-c C-y") #'term-paste))
 
+  (define-key global-map (kbd "RET") 'newline)
   ;; (global-set-key (kbd "C-c i") 'ido-insert-buffer)
   (global-set-key (kbd "M-e") 'symbol-overlay-put)
   (global-set-key (kbd "M-i") 'symbol-overlay-put)
@@ -690,6 +691,7 @@ before packages are loaded."
               (add-to-list 'TeX-command-list
                            '("XeLaTeX" "%`xelatex --synctex=1%(mode)%' %t" TeX-run-TeX nil t))))
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
+  (defun arm-asm-setup () (progn (modify-syntax-entry ?/ ". 12") (modify-syntax-entry ?\; ".") (setq comment-start "//")))
   (add-hook 'org-mode-hook (lambda () (progn
                                         (setq show-trailing-whitespace t)
                                         (smartparens-mode t)
