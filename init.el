@@ -26,7 +26,6 @@ This function should only modify configuration layer settings."
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
 
-   ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
@@ -218,8 +217,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
-   ;; (default nil)
-   dotspacemacs-verify-spacelpa-archives nil
+   ;; (default t)
+   dotspacemacs-verify-spacelpa-archives t
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -242,8 +241,6 @@ It should only modify the values of Spacemacs settings."
                                        hybrid-mode-enable-evilified-state t
                                        hybrid-mode-enable-hjkl-bindings t
                                        hybrid-mode-default-state 'normal)
-   ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -336,8 +333,10 @@ It should only modify the values of Spacemacs settings."
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab t
+
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
    dotspacemacs-remap-Y-to-y$ t
+
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
 
@@ -467,7 +466,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smartparens-strict-mode nil
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
 
