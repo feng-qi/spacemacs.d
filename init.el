@@ -342,7 +342,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout nil
+   dotspacemacs-display-default-layout t
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
@@ -668,7 +668,6 @@ before packages are loaded."
     (kbd "oy")  'youdao-dictionary-search-at-point+
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
-    (kbd "sc")  'fengqi/remove-highlight
     (kbd "toi") 'org-toggle-inline-images
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
