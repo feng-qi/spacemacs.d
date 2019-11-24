@@ -123,6 +123,8 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
+                                      bing-dict
+                                      dictionary
                                       pyim-wbdict
                                       ;; fd-dired
                                       all-the-icons-dired
@@ -609,40 +611,6 @@ before packages are loaded."
   (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}t\\.[[:alnum:]-_]+\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}r\\.[[:alnum:]-_]+\\'" . lisp-mode))
 
-  (with-eval-after-load "evil"
-    (fengqi/define-key evil-normal-state-map
-                       "g[" 'backward-page ; https://github.com/lujun9972/emacs-document/blob/master/emacs-common/%E5%90%88%E7%90%86%E5%9C%B0%E5%9C%A8Emacs%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E9%A1%B5%E7%AC%A6.org
-                       "g]" 'forward-page
-                       "gu" 'evil-upcase
-                       "gl" 'evil-downcase
-                       "+" 'evil-numbers/inc-at-pt
-                       "-" 'evil-numbers/dec-at-pt)
-    (fengqi/define-key evil-visual-state-map
-                       "i9" #'evil-inner-paren
-                       "i0" #'evil-inner-paren
-                       "a9" #'evil-a-paren
-                       "a0" #'evil-a-paren
-                       "is" #'evil-inner-symbol
-                       "+" 'evil-numbers/inc-at-pt
-                       "-" 'evil-numbers/dec-at-pt))
-  (with-eval-after-load "symbol-overlay"
-    (fengqi/define-key symbol-overlay-map
-                       (kbd "n") #'symbol-overlay-jump-next
-                       (kbd "p") #'symbol-overlay-jump-prev
-                       (kbd "r") #'symbol-overlay-rename
-                       (kbd "t") #'symbol-overlay-toggle-in-scope))
-  (with-eval-after-load "term"
-    (fengqi/define-key term-raw-map
-                       (kbd "C-c C-y") #'term-paste))
-
-  (define-key global-map (kbd "RET") 'newline)
-  ;; (global-set-key (kbd "C-c i") 'ido-insert-buffer)
-  (global-set-key (kbd "M-e") 'symbol-overlay-put)
-  (global-set-key (kbd "M-i") 'symbol-overlay-put)
-  (global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
-  (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
-  (global-set-key (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point)
-  (global-set-key (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point)
   (spacemacs/set-leader-keys
     (kbd "8")   'spacemacs/toggle-maximize-frame
     (kbd "bv")  'mark-whole-buffer
@@ -656,16 +624,15 @@ before packages are loaded."
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'fengqi/widen
-    (kbd "od")  'ediff-buffers
+    (kbd "odd") 'dictionary-search
+    (kbd "odb") 'bing-dict-brief
     (kbd "oee") 'eval-and-replace
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
     (kbd "oep") 'fengqi/eval-region-or-line-by-python3
     (kbd "oez") 'fengqi/eval-region-or-line-by-zsh
     (kbd "oi")  'fengqi/generate-number-sequence
-    (kbd "oo")  'youdao-dictionary-play-voice-at-point
     (kbd "op")  'plur-replace
     (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard
-    (kbd "oy")  'youdao-dictionary-search-at-point+
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
     (kbd "toi") 'org-toggle-inline-images
@@ -690,14 +657,12 @@ before packages are loaded."
                            '("XeLaTeX" "%`xelatex --synctex=1%(mode)%' %t" TeX-run-TeX nil t))))
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
   (defun arm-asm-setup () (progn (modify-syntax-entry ?/ ". 12") (modify-syntax-entry ?\; ".") (setq comment-start "//")))
-  (add-hook 'org-mode-hook (lambda () (progn
-                                        (setq show-trailing-whitespace t)
-                                        (smartparens-mode t)
-                                        (auto-fill-mode t))))
 
   ;; markdown exporter, more info: https://orgmode.org/worg/exporters/ox-overview.html
   (with-eval-after-load "org"
-    ;; (define-key org-mode-map [(kbd "C-'")] nil)
+    (add-hook 'org-mode-hook (lambda () (progn
+                                          (setq show-trailing-whitespace t)
+                                          (auto-fill-mode t))))
     (fengqi/define-key org-mode-map
                        (kbd "C-'")    #'fengqi/upcase-previous-WORD
                        (kbd "<f10>")  #'org-tree-slide-move-previous-tree
@@ -720,15 +685,7 @@ before packages are loaded."
   (with-eval-after-load "dired"
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (add-hook 'dired-mode-hook 'dired-filter-mode)
-    (setq wdired-allow-to-change-permissions t)
-    (fengqi/define-key dired-mode-map
-                       (kbd "TAB")      #'dired-subtree-toggle
-                       (kbd "<tab>")    #'dired-subtree-toggle
-                       (kbd "S-TAB")    #'dired-subtree-cycle
-                       (kbd "<S-tab>")  #'dired-subtree-cycle
-                       (kbd "i")        #'dired-toggle-read-only
-                       (kbd "s")        #'fengqi/dired-sort-other
-                       (kbd "f")        #'evil-find-char))
+    (setq wdired-allow-to-change-permissions t))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
 
@@ -753,6 +710,44 @@ before packages are loaded."
 
   ;; (add-hook 'python-mode-hook 'lsp-python-enable)
   ;; (spacemacs/lsp-bind-keys-for-mode 'python-mode)
+
+  (fengqi/define-key-for-keymaps
+   '((global-map
+      (kbd "M-e") 'symbol-overlay-put
+      (kbd "M-i") 'symbol-overlay-put
+      (kbd "M-n") 'symbol-overlay-switch-forward
+      (kbd "M-p") 'symbol-overlay-switch-backward
+      (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point
+      (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point
+      (kbd "M-.") 'bing-dict-brief-at-point
+      (kbd "RET") 'newline)
+     (dired-mode-map
+      (kbd "TAB")     'dired-subtree-toggle
+      (kbd "<tab>")   'dired-subtree-toggle
+      (kbd "S-TAB")   'dired-subtree-cycle
+      (kbd "<S-tab>") 'dired-subtree-cycle
+      (kbd "i")       'dired-toggle-read-only
+      (kbd "s")       'fengqi/dired-sort-other
+      (kbd "f")       'evil-find-char)
+     (symbol-overlay-map
+      (kbd "n") #'symbol-overlay-jump-next
+      (kbd "p") #'symbol-overlay-jump-prev
+      (kbd "r") #'symbol-overlay-rename
+      (kbd "t") #'symbol-overlay-toggle-in-scope)
+     (evil-visual-state-map
+      (kbd "is") 'evil-inner-symbol
+      (kbd "+")  'evil-numbers/inc-at-pt
+      (kbd "-")  'evil-numbers/dec-at-pt)
+     (evil-normal-state-map
+      (kbd "g[")  'backward-page
+      (kbd "g]")  'forward-page
+      (kbd "gu")  'evil-upcase
+      (kbd "gl")  'evil-downcase
+      (kbd "+")   'evil-numbers/inc-at-pt
+      (kbd "-")   'evil-numbers/dec-at-pt
+      (kbd "M-.") 'bing-dict-brief-at-point)
+     (evil-hybrid-state-map
+      (kbd "M-.") 'bing-dict-brief-at-point)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

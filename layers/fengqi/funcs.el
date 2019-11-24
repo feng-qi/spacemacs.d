@@ -33,6 +33,10 @@ See https://stackoverflow.com/questions/10914813/generic-right-align-function"
   (while bindings
     (define-key keymap (pop bindings) (pop bindings))))
 
+(defun fengqi/define-key-for-keymaps (bindings-list)
+  (while bindings-list
+    (eval `(fengqi/define-key ,@(pop bindings-list)))))
+
 (defun fengqi/upcase-previous-WORD ()
   "Make the WORD before cursor upper case."
   (interactive)
@@ -263,3 +267,9 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 (defun fengqi/go ()
   (interactive)
   (fengqi/set-frame-position-width-height 1040 30 96 51))
+
+(defun bing-dict-brief-at-point ()
+  (interactive)
+  (let ((word (thing-at-point 'word 'no-properties)))
+    (message "bing dict fetching `%s'..." word)
+    (bing-dict-brief word)))
