@@ -101,7 +101,7 @@ This function should only modify configuration layer settings."
      ;; (org :variables org-enable-reveal-js-support t)
      org
      pdf
-     (python :variables python-backend 'anaconda)
+     (python :variables python-backend 'lsp)
      ;; ipython-notebook
      ranger
      sql
@@ -550,21 +550,13 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   (setq configuration-layer-elpa-archives
         '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
           ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
           ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
-  (setq tramp-ssh-controlmaster-options
-        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-  (setq byte-compile-warnings '(not obsolete))
   ;; (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-  (setq org-agenda-files '("~/org"))
-  (setq org-pomodoro-length 40)
-  (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-           "* TODO [#A] %?\nSCHEDULED: %T\n  %a\n")
-          ("?" "Question" entry (file+headline "~/org/questions.org" "Questions")
-           "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n")))
 
   ;; set transparency background when started from terminal
   (defun on-after-init ()
@@ -673,13 +665,20 @@ before packages are loaded."
     (require 'org-tempo)
     ;; (setq org-hide-leading-stars t)
     (setq org-export-with-section-numbers  nil
-          org-export-with-sub-superscripts nil)
-    (setq org-link-frame-setup
+          org-export-with-sub-superscripts nil
+          org-link-frame-setup
           '((vm      . vm-visit-folder-other-frame)
             (vm-imap . vm-visit-imap-folder-other-frame)
             (gnus    . org-gnus-no-new-news)
             (file    . find-file)
-            (wl      . wl-other-frame))))
+            (wl      . wl-other-frame))
+          org-agenda-files '("~/org")
+          ;; org-pomodoro-length 40
+          org-capture-templates
+          '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+             "* TODO [#A] %?\nSCHEDULED: %T\n  %a\n")
+            ("?" "Question" entry (file+headline "~/org/questions.org" "Questions")
+             "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n"))))
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
@@ -701,22 +700,8 @@ before packages are loaded."
   (pyim-wbdict-v98-enable)
 
 
-  ;; language server
-
-  ;; Configuration to fix LSP errors.
-  (setq lsp-enable-eldoc nil) ;we will got error "Wrong type argument: sequencep" from `eldoc-message' if `lsp-enable-eldoc' is non-nil
-  (setq lsp-message-project-root-warning t) ;avoid popup warning buffer if lsp can't found root directory (such as edit simple *.py file)
-  (setq create-lockfiles nil) ;we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
-
-  ;; (add-hook 'python-mode-hook 'lsp-python-enable)
-  ;; (spacemacs/lsp-bind-keys-for-mode 'python-mode)
-
   (fengqi/define-key-for-keymaps
    '((global-map
-      (kbd "M-e") 'symbol-overlay-put
-      (kbd "M-i") 'symbol-overlay-put
-      (kbd "M-n") 'symbol-overlay-switch-forward
-      (kbd "M-p") 'symbol-overlay-switch-backward
       (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point
       (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point
       (kbd "M-.") 'bing-dict-brief-at-point
@@ -739,6 +724,10 @@ before packages are loaded."
       (kbd "+")  'evil-numbers/inc-at-pt
       (kbd "-")  'evil-numbers/dec-at-pt)
      (evil-normal-state-map
+      (kbd "M-e") 'symbol-overlay-put
+      (kbd "M-i") 'symbol-overlay-put
+      (kbd "M-n") 'symbol-overlay-switch-forward
+      (kbd "M-p") 'symbol-overlay-switch-backward
       (kbd "g[")  'backward-page
       (kbd "g]")  'forward-page
       (kbd "gu")  'evil-upcase
