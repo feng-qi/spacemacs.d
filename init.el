@@ -94,6 +94,7 @@ This function should only modify configuration layer settings."
      html
      csharp
      java
+     groovy
      ;; javascript
      csv
      latex
@@ -579,10 +580,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (when (not (eq system-type 'windows-nt))
-    (setq shell-file-name "bash")
-    (setq shell-command-switch "-lc")
-    (exec-path-from-shell-initialize))
+  (unless (eq system-type 'windows-nt)
+    ;; (exec-path-from-shell-initialize)
+    (setenv "BASH_ENV" (expand-file-name "~/.bashrc")))
   (when (eq system-type 'darwin)
     (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
     (setq python-shell-interpreter-args ""
@@ -711,7 +711,7 @@ before packages are loaded."
       (kbd "<tab>")   'dired-subtree-toggle
       (kbd "S-TAB")   'dired-subtree-cycle
       (kbd "<S-tab>") 'dired-subtree-cycle
-      (kbd "i")       'dired-toggle-read-only
+      (kbd "i")       'fengqi/dired-toggle-read-only-in-evil-normal
       (kbd "s")       'fengqi/dired-sort-other
       (kbd "f")       'evil-find-char)
      (symbol-overlay-map

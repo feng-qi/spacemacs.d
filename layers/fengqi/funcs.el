@@ -219,8 +219,8 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
          (shell-command exe)
          (deactivate-mark)))))
 
-(fengqi|eval-region-or-line-by-??? "zsh" "-i -c")
-(fengqi|eval-region-or-line-by-??? "bash" "-i -c")
+(fengqi|eval-region-or-line-by-??? "zsh" "-c")
+(fengqi|eval-region-or-line-by-??? "bash" "-c")
 (fengqi|eval-region-or-line-by-??? "python3" "-c")
 
 (defun fengqi/generate-number-sequence (step)
@@ -273,3 +273,7 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
   (let ((word (thing-at-point 'word 'no-properties)))
     (message "bing dict fetching `%s'..." word)
     (bing-dict-brief word)))
+
+(defun fengqi/dired-toggle-read-only-in-evil-normal ()
+  (interactive)
+  (progn (dired-toggle-read-only) (evil-normal-state)))
