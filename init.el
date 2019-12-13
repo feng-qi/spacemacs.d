@@ -71,6 +71,7 @@ This function should only modify configuration layer settings."
      scheme
      parinfer
      (go :variables go-tab-width 4)
+     sml
      haskell
      idris
      octave
@@ -103,7 +104,7 @@ This function should only modify configuration layer settings."
      org
      pdf
      (python :variables python-backend 'lsp)
-     ;; ipython-notebook
+     ipython-notebook
      ranger
      sql
      ;; fasd
