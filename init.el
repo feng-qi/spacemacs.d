@@ -651,35 +651,31 @@ before packages are loaded."
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
   (defun arm-asm-setup () (progn (modify-syntax-entry ?/ ". 12") (modify-syntax-entry ?\; ".") (setq comment-start "//")))
 
-  ;; markdown exporter, more info: https://orgmode.org/worg/exporters/ox-overview.html
+  ;; (fengqi/define-key org-mode-map
+  ;;                    (kbd "<f10>")  #'org-tree-slide-move-previous-tree
+  ;;                    (kbd "<f9>")   #'org-tree-slide-move-next-tree
+  ;;                    (kbd "<f8>")   #'org-tree-slide-mode)
+  ;; (org-tree-slide-simple-profile)
   (with-eval-after-load "org"
-    (add-hook 'org-mode-hook (lambda () (progn
-                                          (setq show-trailing-whitespace t)
-                                          (auto-fill-mode t))))
-    (fengqi/define-key org-mode-map
-                       (kbd "C-'")    #'fengqi/upcase-previous-WORD
-                       (kbd "<f10>")  #'org-tree-slide-move-previous-tree
-                       (kbd "<f9>")   #'org-tree-slide-move-next-tree
-                       (kbd "<f8>")   #'org-tree-slide-mode)
-    (org-tree-slide-simple-profile)
-    (require 'ox-md nil t)
-    (require 'org-tempo)
-    ;; (setq org-hide-leading-stars t)
+    (add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t) (auto-fill-mode t)))
+    (org-babel-do-load-languages
+     'org-babel-load-languages '((shell . t)
+                                 (python . t)))
+    (add-to-list 'org-modules 'org-tempo)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil
-          org-link-frame-setup
-          '((vm      . vm-visit-folder-other-frame)
-            (vm-imap . vm-visit-imap-folder-other-frame)
-            (gnus    . org-gnus-no-new-news)
-            (file    . find-file)
-            (wl      . wl-other-frame))
+          org-link-frame-setup '((vm      . vm-visit-folder-other-frame)
+                                 (vm-imap . vm-visit-imap-folder-other-frame)
+                                 (gnus    . org-gnus-no-new-news)
+                                 (file    . find-file)
+                                 (wl      . wl-other-frame))
           org-agenda-files '("~/org")
           ;; org-pomodoro-length 40
-          org-capture-templates
-          '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-             "* TODO [#A] %?\nSCHEDULED: %T\n  %a\n")
-            ("?" "Question" entry (file+headline "~/org/questions.org" "Questions")
-             "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n"))))
+          ;; org-hide-leading-stars t
+          org-capture-templates '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+                                   "* TODO [#A] %?\nSCHEDULED: %T\n  %a\n")
+                                  ("?" "Question" entry (file+headline "~/org/questions.org" "Questions")
+                                   "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n"))))
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"

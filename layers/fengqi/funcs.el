@@ -216,7 +216,7 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
               (cmd (buffer-substring-no-properties beg end))
               (exe (concat ,name " " ,args " '" cmd "'")))
          (message "eval: %s" exe)
-         (shell-command exe)
+         (async-shell-command exe)
          (deactivate-mark)))))
 
 (fengqi|eval-region-or-line-by-??? "zsh" "-c")
