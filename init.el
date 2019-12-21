@@ -660,6 +660,7 @@ before packages are loaded."
     (add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t) (auto-fill-mode t)))
     (org-babel-do-load-languages
      'org-babel-load-languages '((shell . t)
+                                 (calc . t)
                                  (python . t)))
     (add-to-list 'org-modules 'org-tempo)
     (setq org-export-with-section-numbers  nil
@@ -727,8 +728,6 @@ before packages are loaded."
       (kbd "M-p") 'symbol-overlay-switch-backward
       (kbd "g[")  'backward-page
       (kbd "g]")  'forward-page
-      (kbd "gu")  'evil-upcase
-      (kbd "gl")  'evil-downcase
       (kbd "+")   'evil-numbers/inc-at-pt
       (kbd "-")   'evil-numbers/dec-at-pt
       (kbd "M-.") 'bing-dict-brief-at-point)

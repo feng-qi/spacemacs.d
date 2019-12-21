@@ -277,3 +277,26 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 (defun fengqi/dired-toggle-read-only-in-evil-normal ()
   (interactive)
   (progn (dired-toggle-read-only) (evil-normal-state)))
+
+(defun the-fastest-elpa-mirror ()
+  (interactive)
+  (require 'chart)
+  (let* ((urls (mapcar (lambda (part) (concat "http://" part "archive-contents"))
+                       '("melpa.org/packages/"
+                         "www.mirrorservice.org/sites/melpa.org/packages/"
+                         "emacs-china.org/melpa/"
+                         "mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"
+                         "mirrors.163.com/elpa/melpa/"
+                         "mirrors.cloud.tencent.com/elpa/melpa/")))
+         (durations (mapcar (lambda (url)
+                              (let ((start (current-time)))
+                                (message "Fetching %s" url)
+                                (call-process "curl" nil nil nil "--max-time" "10" url)
+                                (float-time (time-subtract (current-time) start))))
+                            urls)))
+    (chart-bar-quickie
+     'horizontal
+     "The fastest elpa mirror"
+     (mapcar (lambda (url) (url-host (url-generic-parse-url url))) urls) "Elpa"
+     (mapcar (lambda (d) (* 1e3 d)) durations) "ms")
+    (message "%s" durations)))
