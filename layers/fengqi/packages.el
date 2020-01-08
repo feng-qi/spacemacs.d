@@ -32,12 +32,10 @@
 (defconst fengqi-packages
   '(
     bison-mode
-    fancy-narrow
     solarized-theme
     monokai-theme
     plur ; vim Abolish
     nhexl-mode
-    thrift
     zenburn-theme
     )
   "The list of Lisp packages required by the fengqi layer.
@@ -67,11 +65,6 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
-(defun fengqi/init-fancy-narrow ()
-  (use-package fancy-narrow
-    :defer t
-    ))
-
 (defun fengqi/init-bison-mode ()
   (use-package bison-mode
     :defer t
@@ -94,11 +87,6 @@ Each entry is either:
 
 (defun fengqi/init-nhexl-mode ()
   (use-package nhexl-mode
-    :defer t
-    ))
-
-(defun fengqi/init-thrift ()
-  (use-package thrift
     :defer t
     ))
 

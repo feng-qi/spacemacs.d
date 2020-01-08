@@ -168,10 +168,9 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
   "Narrow to current region or defun with fancy-narrow."
   (interactive)
   (progn
-    (unless fancy-narrow-mode (fancy-narrow-mode))
     (if (region-active-p)
-        (fancy-narrow-to-region (region-beginning) (region-end))
-      (fancy-narrow-to-defun))
+        (narrow-to-region (region-beginning) (region-end))
+      (narrow-to-defun))
     (deactivate-mark)))
 
 (defun fengqi/widen (&optional style)

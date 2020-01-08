@@ -125,11 +125,13 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
+                                      memory-usage
                                       bing-dict
                                       dictionary
                                       pyim-wbdict
                                       ;; fd-dired
                                       all-the-icons-dired
+                                      diredfl
                                       dired-subtree
                                       dired-narrow
                                       dired-filter
@@ -616,7 +618,7 @@ before packages are loaded."
     (kbd "fCr") 'revert-buffer-with-coding-system
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
-    (kbd "nw")  'fengqi/widen
+    (kbd "nw")  'widen
     (kbd "odd") 'dictionary-search
     (kbd "odb") 'bing-dict-brief
     (kbd "oee") 'eval-and-replace
@@ -676,10 +678,13 @@ before packages are loaded."
           org-capture-templates '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
                                    "* TODO [#A] %?\nSCHEDULED: %T\n  %a\n")
                                   ("?" "Question" entry (file+headline "~/org/questions.org" "Questions")
-                                   "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n"))))
+                                   "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n" :prepend t)
+                                  ("w" "Work schedules" plain (file+datetree "~/org/work-schedules.org")
+                                   "**** %?\n     SCHEDULED: %T\n"))))
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
+    (diredfl-global-mode)
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (add-hook 'dired-mode-hook 'dired-filter-mode)
     (setq wdired-allow-to-change-permissions t))
