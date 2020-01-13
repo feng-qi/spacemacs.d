@@ -679,8 +679,8 @@ before packages are loaded."
                                    "* TODO [#A] %?\nSCHEDULED: %T\n  %a\n")
                                   ("?" "Question" entry (file+headline "~/org/questions.org" "Questions")
                                    "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n" :prepend t)
-                                  ("w" "Work schedules" plain (file+datetree "~/org/work-schedules.org")
-                                   "**** %?\n     SCHEDULED: %T\n"))))
+                                  ("w" "Work schedules" plain (file+olp+datetree "~/org/work-schedules.org")
+                                   "**** TODO %?\n     SCHEDULED: %T\n     %a\n"))))
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
