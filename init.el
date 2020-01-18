@@ -621,6 +621,7 @@ before packages are loaded."
     (kbd "nw")  'widen
     (kbd "odd") 'dictionary-search
     (kbd "odb") 'bing-dict-brief
+    (kbd "oec") 'fengqi/calc-eval
     (kbd "oee") 'eval-and-replace
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
     (kbd "oep") 'fengqi/eval-region-or-line-by-python3

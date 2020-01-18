@@ -205,6 +205,17 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
     (deactivate-mark)
     (message "osc52 sent: `%s'" content)))
 
+(defun fengqi/calc-eval (&optional multi-formulas)
+  (interactive "P")
+  (let* ((beg (if (use-region-p) (region-beginning) (line-beginning-position)))
+         (end (if (use-region-p) (region-end) (line-end-position)))
+         (formula (string-trim (buffer-substring beg end)))
+         (formula (if multi-formulas (subst-char-in-string ?\n ?, formula) formula))
+         (result (calc-eval formula)))
+    (kill-new result)
+    (message "%s = %s" formula result)
+    (deactivate-mark)))
+
 (defmacro fengqi|eval-region-or-line-by-??? (name args)
   (let ((new-func (intern (concat "fengqi/eval-region-or-line-by-" name))))
     `(defun ,new-func ()
