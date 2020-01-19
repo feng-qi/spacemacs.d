@@ -61,6 +61,7 @@ See https://stackoverflow.com/questions/10914813/generic-right-align-function"
 
 (fengqi|???-region-or-symbol-at-point "upcase")
 (fengqi|???-region-or-symbol-at-point "downcase")
+(fengqi|???-region-or-symbol-at-point "capitalize")
 
 (defun fengqi/insert-current-buffer-name ()
   "Insert the full path file name into the current buffer.
@@ -310,3 +311,13 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
      (mapcar (lambda (url) (url-host (url-generic-parse-url url))) urls) "Elpa"
      (mapcar (lambda (d) (* 1e3 d)) durations) "ms")
     (message "%s" durations)))
+
+(defun fengqi/calc-on-rectangle ()
+  (interactive)
+  (let* ((values (progn (copy-rectangle-to-register 255 (region-beginning) (region-end))
+                        (mapcar 'string-to-number (get-register 255))))
+         (maxv (apply 'max values))
+         (minv (apply 'min values))
+         (sum (apply '+ values))
+         (average (/ sum (length values))))
+    (message "max: %f, min: %f, sum: %f, average: %f" maxv minv sum average)))

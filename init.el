@@ -629,6 +629,7 @@ before packages are loaded."
     (kbd "oi")  'fengqi/generate-number-sequence
     (kbd "op")  'plur-replace
     (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard
+    (kbd "ov")  'fengqi/calc-on-rectangle
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
     (kbd "toi") 'org-toggle-inline-images
@@ -708,6 +709,7 @@ before packages are loaded."
    '((global-map
       (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point
       (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point
+      (kbd "M-c") 'fengqi/capitalize-region-or-symbol-at-point
       (kbd "M-.") 'bing-dict-brief-at-point
       (kbd "RET") 'newline)
      (dired-mode-map
