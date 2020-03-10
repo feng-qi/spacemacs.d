@@ -86,6 +86,7 @@ This function should only modify configuration layer settings."
      ;; emoji
      ;; games
      ;; dash
+     debug
      git
      ;; github
      (version-control :variables
@@ -103,7 +104,11 @@ This function should only modify configuration layer settings."
      ;; (org :variables org-enable-reveal-js-support t)
      org
      pdf
-     (python :variables python-backend 'lsp)
+     (python :variables
+             python-backend 'lsp
+             flycheck-python-pycompile-executable "python3"
+             python-shell-interpreter "python3"
+             python-shell-interpreter-args "-i")
      ipython-notebook
      ranger
      sql
@@ -131,7 +136,7 @@ This function should only modify configuration layer settings."
                                       pyim-wbdict
                                       ;; fd-dired
                                       all-the-icons-dired
-                                      diredfl
+                                      ;; diredfl
                                       dired-subtree
                                       dired-narrow
                                       dired-filter
@@ -593,14 +598,16 @@ before packages are loaded."
           ns-function-modifier 'control
           mac-command-modifier 'meta))
   (global-company-mode t)
-  (setq-default python-shell-interpreter "python3")
   (setq hscroll-step                  1
         doom-modeline-height          20
         find-file-visit-truename      t
+        compilation-window-height     20
+        delete-by-moving-to-trash     nil
         sp-highlight-pair-overlay     nil
         sp-highlight-wrap-overlay     nil
         sp-highlight-wrap-tag-overlay nil)
 
+  (add-to-list 'auto-mode-alist '("\\.ad\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.def\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.c\\'"   . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}t\\.[[:alnum:]-_]+\\'" . c++-mode))
@@ -683,13 +690,26 @@ before packages are loaded."
                                    "* QUESTION [#B] %?\nSCHEDULED: %T\n  %a\n" :prepend t)
                                   ("w" "Work schedules" plain (file+olp+datetree "~/org/work-schedules.org")
                                    "**** TODO %?\n     SCHEDULED: %T\n     %a\n"))))
+  (with-eval-after-load "realgud"
+    (fengqi/define-key realgud:shortkey-mode-map
+                       (kbd "'") #'evil-goto-mark-line
+                       (kbd "0") #'evil-digit-argument-or-evil-beginning-of-line
+                       (kbd "e") #'realgud:cmd-eval-at-point
+                       (kbd "E") #'realgud:cmd-eval-dwim
+                       (kbd "f") #'evil-find-char
+                       (kbd "m") #'evil-set-marker
+                       (kbd "n") #'realgud:cmd-next
+                       (kbd "t") #'evil-find-char-to
+                       (kbd "w") #'evil-forward-word-begin
+                       (kbd "zt") #'evil-scroll-line-to-top
+                       (kbd "zz") #'evil-scroll-line-to-center
+                       (kbd "zb") #'evil-scroll-line-to-bottom))
   (with-eval-after-load "treemacs"
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
-    (diredfl-global-mode)
+    ;; (diredfl-global-mode)
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-    (add-hook 'dired-mode-hook 'dired-filter-mode)
-    (setq wdired-allow-to-change-permissions t))
+    (add-hook 'dired-mode-hook 'dired-filter-mode))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
 
