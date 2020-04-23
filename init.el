@@ -59,6 +59,9 @@ This function should only modify configuration layer settings."
      gpu
      cmake
      (c-c++ :variables
+            ccls-executable "~/github/ccls/Release/ccls"
+            ccls-initialization-options '(:index (:threads 2))
+            c-c++-backend 'lsp-ccls
             c-c++-enable-c++11 t
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
@@ -619,8 +622,6 @@ before packages are loaded."
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
     (kbd "cs")  'fengqi/untabify-region-or-buffer
     (kbd "ct")  'fengqi/tabify-region-or-buffer
-    (kbd "dc")  'fengqi/describe-buffer-file-coding-system
-    (kbd "dw")  'delete-trailing-whitespace
     (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
     (kbd "fCr") 'revert-buffer-with-coding-system
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
@@ -643,16 +644,18 @@ before packages are loaded."
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus
-    (kbd "xas") 'fengqi/aligh-repeat-whitespace
-    (kbd "y")   'fengqi/kill-and-osc52-send)
+    ;; (kbd "y")   'fengqi/kill-and-osc52-send
+    (kbd "xas") 'fengqi/aligh-repeat-whitespace)
 
   (with-eval-after-load 'cc-mode
     (fengqi/define-key c++-mode-map
                        (kbd "M-e") #'symbol-overlay-put)
     (dolist (mode '(c-mode c++-mode))
       (evil-leader/set-key-for-mode mode
-        "f f" 'spacemacs/clang-format-region-or-buffer
-        "o o" 'fengqi/set-compile-command)))
+        ","  'lsp-ui-peek-find-definitions
+        "."  'lsp-ui-peek-find-implementation
+        "ff" 'spacemacs/clang-format-region-or-buffer
+        "oo" 'fengqi/set-compile-command)))
 
   (add-hook 'LaTeX-mode-hook
             (lambda ()
@@ -674,6 +677,7 @@ before packages are loaded."
                                  (calc . t)
                                  (python . t)))
     (add-to-list 'org-modules 'org-tempo)
+    (add-to-list 'org-export-backends 'ox-md)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil
           org-link-frame-setup '((vm      . vm-visit-folder-other-frame)
@@ -708,14 +712,14 @@ before packages are loaded."
     (setq treemacs-position 'right))
   (with-eval-after-load "dired"
     ;; (diredfl-global-mode)
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    ;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (add-hook 'dired-mode-hook 'dired-filter-mode))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
 
   (setq c-default-style "k&r")
   (setq-default tab-width      4
-                fill-column    80
+                fill-column    72
                 truncate-lines t
                 c-basic-offset 4)
 
