@@ -33,6 +33,7 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     ivy
      command-log
      (search-engine :variables
                     browse-url-browser-function 'browse-url-generic
@@ -69,7 +70,6 @@ This function should only modify configuration layer settings."
               pyim-default-scheme 'wubi
               chinese-enable-youdao-dict t)
      (clojure :variables clojure-enable-fancify-symbols nil)
-     ;; ivy
      emacs-lisp
      scheme
      parinfer
@@ -117,6 +117,7 @@ This function should only modify configuration layer settings."
      sql
      ;; fasd
      (shell :variables
+            term-buffer-maximum-size 30000
             shell-default-height 30
             shell-default-position 'bottom)
      spell-checking
@@ -638,6 +639,7 @@ before packages are loaded."
     (kbd "op")  'plur-replace
     (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard
     (kbd "ov")  'fengqi/calc-on-rectangle
+    (kbd "pf")  'counsel-git
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
     (kbd "toi") 'org-toggle-inline-images
@@ -728,9 +730,14 @@ before packages are loaded."
   ;; pyim-wbdict setup
   (pyim-wbdict-v98-enable)
 
+  (spacemacs|define-custom-layout "@Shell"
+    :binding "s"
+    :body
+    (ansi-term "zsh"))
 
   (fengqi/define-key-for-keymaps
    '((global-map
+      (kbd "C-s") 'isearch-forward
       (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point
       (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point
       (kbd "M-c") 'fengqi/capitalize-region-or-symbol-at-point
