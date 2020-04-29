@@ -118,6 +118,9 @@ This function should only modify configuration layer settings."
      ;; fasd
      (shell :variables
             term-buffer-maximum-size 30000
+            vterm-max-scrollback 10000
+            shell-default-shell 'vterm
+            shell-default-term-shell "zsh"
             shell-default-height 30
             shell-default-position 'bottom)
      spell-checking
@@ -733,7 +736,7 @@ before packages are loaded."
   (spacemacs|define-custom-layout "@Shell"
     :binding "s"
     :body
-    (ansi-term "zsh"))
+    (vterm))
 
   (fengqi/define-key-for-keymaps
    '((global-map
