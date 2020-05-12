@@ -321,3 +321,8 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
          (sum (apply '+ values))
          (average (/ sum (length values))))
     (message "max: %f, min: %f, sum: %f, average: %f" maxv minv sum average)))
+
+(defun fengqi/touch-file-now (file)
+  (let ((touch-cmd (concat "touch " (expand-file-name file))))
+    (shell-command touch-cmd)
+    (message "touched: %s" file)))

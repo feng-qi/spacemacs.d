@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ivy
+     (ivy :variables
+          ivy-count-format "(%d/%d) ")
      command-log
      (search-engine :variables
                     browse-url-browser-function 'browse-url-generic
@@ -641,6 +642,7 @@ before packages are loaded."
     (kbd "oi")  'fengqi/generate-number-sequence
     (kbd "op")  'plur-replace
     (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard
+    (kbd "ot")  (lambda () (interactive) (fengqi/touch-file-now (buffer-file-name)))
     (kbd "ov")  'fengqi/calc-on-rectangle
     (kbd "pf")  'counsel-git
     (kbd "qQ")  'spacemacs/kill-emacs
@@ -737,6 +739,10 @@ before packages are loaded."
     :binding "s"
     :body
     (vterm))
+
+  (ivy-set-actions
+   'counsel-find-file
+   '(("t" fengqi/touch-file-now "touch")))
 
   (fengqi/define-key-for-keymaps
    '((global-map
