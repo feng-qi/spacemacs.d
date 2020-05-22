@@ -143,16 +143,16 @@ This function should only modify configuration layer settings."
                                       dictionary
                                       pyim-wbdict
                                       ;; fd-dired
-                                      all-the-icons-dired
+                                      ;; all-the-icons-dired
                                       ;; diredfl
                                       dired-subtree
                                       dired-narrow
                                       dired-filter
                                       presentation
                                       org-tree-slide
-                                      exec-path-from-shell
+                                      ;; protobuf-mode
                                       ;; (targets :location (recipe :fetcher github :repo "noctuid/targets.el"))
-                                      protobuf-mode)
+                                      exec-path-from-shell)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
