@@ -326,3 +326,18 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
   (let ((touch-cmd (concat "touch " (expand-file-name file))))
     (shell-command touch-cmd)
     (message "touched: %s" file)))
+
+(defun fengqi/ivy-rg-find-file-in-project ()
+  "Forward to `describe-function'."
+  (interactive)
+  (ivy-read "Find file in ~/.spacemacs.d: "
+            (split-string
+             (shell-command-to-string
+              (format "cd %s && rg --files --null" (shell-quote-argument (expand-file-name "~/.spacemacs.d"))))
+             "\0")
+            :keymap counsel-describe-map
+            ;; :preselect (ivy-thing-at-point)
+            ;; :history 'fengqi/ivy-rg-find-file-in-project-history
+            ;; :require-match t
+            :action (lambda (x) (find-file (expand-file-name x "~/.spacemacs.d")))
+            :caller 'fengqi/ivy-rg-find-file-in-project))
