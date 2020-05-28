@@ -99,7 +99,7 @@ This function should only modify configuration layer settings."
                       version-control-global-margin nil)
      ;; (gtags :variables gtags-enable-by-default nil)
      html
-     csharp
+     ;; csharp
      java
      groovy
      ;; javascript
@@ -111,6 +111,7 @@ This function should only modify configuration layer settings."
      pdf
      (python :variables
              python-backend 'lsp
+             dap-python-executable "python3"
              flycheck-python-pycompile-executable "python3"
              python-shell-interpreter "python3"
              python-shell-interpreter-args "-i")
@@ -160,6 +161,7 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(chinese-pyim
                                     chinese-word-at-point
+                                    smartparens
                                     vi-tilde-fringe
                                     evil-escape
                                     evil-tutor
@@ -687,6 +689,7 @@ before packages are loaded."
               (add-to-list 'TeX-command-list
                            '("XeLaTeX" "%`xelatex --synctex=1%(mode)%' %t" TeX-run-TeX nil t))))
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
+  (add-hook 'prog-mode-hook 'electric-pair-mode)
   (defun arm-asm-setup () (progn (modify-syntax-entry ?/ ". 12") (modify-syntax-entry ?\; ".") (setq comment-start "//")))
 
   ;; (fengqi/define-key org-mode-map
