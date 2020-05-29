@@ -122,7 +122,7 @@ This function should only modify configuration layer settings."
      (shell :variables
             term-buffer-maximum-size 30000
             vterm-max-scrollback 10000
-            shell-default-shell 'vterm
+            shell-default-shell (if (eq system-type 'windows-nt) 'eshell 'vterm)
             shell-default-term-shell "zsh"
             shell-default-height 30
             shell-default-position 'bottom)
@@ -790,6 +790,7 @@ before packages are loaded."
       (kbd "+")  'evil-numbers/inc-at-pt
       (kbd "-")  'evil-numbers/dec-at-pt)
      (evil-normal-state-map
+      (kbd "C-t") 'spacemacs/jump-to-last-layout
       (kbd "M-e") 'symbol-overlay-put
       (kbd "M-i") 'symbol-overlay-put
       (kbd "M-n") 'symbol-overlay-switch-forward
