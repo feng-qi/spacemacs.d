@@ -707,6 +707,7 @@ before packages are loaded."
     (add-to-list 'org-export-backends 'ox-md)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil
+          org-src-window-setup 'split-window-below
           org-link-frame-setup '((vm      . vm-visit-folder-other-frame)
                                  (vm-imap . vm-visit-imap-folder-other-frame)
                                  (gnus    . org-gnus-no-new-news)
