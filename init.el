@@ -762,7 +762,18 @@ before packages are loaded."
 
   (ivy-set-actions
    'counsel-find-file
-   '(("t" fengqi/touch-file-now "touch")))
+   '(("j" find-file-other-window "other window")
+     ("f" find-file-other-frame "other frame")
+     ("b" counsel-find-file-cd-bookmark-action "cd bookmark")
+     ("x" counsel-find-file-extern "open externally")
+     ("r" counsel-find-file-as-root "open as root")
+     ("R" find-file-read-only "read only")
+     ("l" find-file-literally "open literally")
+     ("k" counsel-find-file-delete "delete")
+     ("c" counsel-find-file-copy "copy file")
+     ("m" counsel-find-file-move "move or rename")
+     ("t" fengqi/touch-file-now "touch")
+     ("d" counsel-find-file-mkdir-action "mkdir")))
 
   (fengqi/define-key-for-keymaps
    '((global-map
