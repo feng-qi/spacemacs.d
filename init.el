@@ -82,13 +82,13 @@ This function should only modify configuration layer settings."
      octave
      (lua :variables lua-indent-level 4)
      rust
-     (scala :variables
-            scala-backend 'scala-metals
-            scala-indent:use-javadoc-style t
-            scala-enable-eldoc t
-            ;; scala-use-unicode-arrows t
-            ;; scala-auto-start-ensime t
-            scala-auto-insert-asterisk-in-comments t)
+     ;; (scala :variables
+     ;;        scala-backend 'scala-metals
+     ;;        scala-indent:use-javadoc-style t
+     ;;        scala-enable-eldoc t
+     ;;        ;; scala-use-unicode-arrows t
+     ;;        ;; scala-auto-start-ensime t
+     ;;        scala-auto-insert-asterisk-in-comments t)
      ;; emoji
      ;; games
      ;; dash
@@ -178,6 +178,7 @@ This function should only modify configuration layer settings."
                                     pangu-spacing
                                     spaceline
                                     clojure-cheatsheet
+                                    org-brain
                                     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
