@@ -62,7 +62,8 @@ This function should only modify configuration layer settings."
      cmake
      (c-c++ :variables
             ccls-executable "~/github/ccls/Release/ccls"
-            ccls-initialization-options '(:index (:threads 2))
+            ccls-initialization-options `(:cache (:directory ,(expand-file-name "~/.cache/.ccls-cache"))
+                                                 :index (:threads 2))
             c-c++-backend 'lsp-ccls
             c-c++-enable-c++11 t
             c-c++-default-mode-for-headers 'c++-mode
@@ -679,7 +680,7 @@ before packages are loaded."
     (dolist (mode '(c-mode c++-mode))
       (evil-leader/set-key-for-mode mode
         ","  'lsp-ui-peek-find-definitions
-        "."  'lsp-ui-peek-find-implementation
+        "."  'lsp-ui-peek-find-references
         "ff" 'spacemacs/clang-format-region-or-buffer
         "oo" 'fengqi/set-compile-command)))
 
