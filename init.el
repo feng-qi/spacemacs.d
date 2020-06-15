@@ -746,6 +746,8 @@ before packages are loaded."
     (add-hook 'dired-mode-hook 'dired-filter-mode))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
+  (with-eval-after-load 'magit
+    (define-key magit-status-mode-map (kbd "%") #'magit-worktree))
 
   (setq c-default-style "k&r")
   (setq-default tab-width      4
