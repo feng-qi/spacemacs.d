@@ -627,6 +627,7 @@ before packages are loaded."
           ns-function-modifier 'control
           mac-command-modifier 'meta))
   (global-company-mode t)
+  (electric-pair-mode 1)
   (setq hscroll-step                  1
         doom-modeline-height          20
         find-file-visit-truename      t
@@ -691,7 +692,6 @@ before packages are loaded."
               (add-to-list 'TeX-command-list
                            '("XeLaTeX" "%`xelatex --synctex=1%(mode)%' %t" TeX-run-TeX nil t))))
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
-  (add-hook 'prog-mode-hook 'electric-pair-mode)
   (defun arm-asm-setup () (progn (modify-syntax-entry ?/ ". 12") (modify-syntax-entry ?\; ".") (setq comment-start "//")))
 
   ;; (fengqi/define-key org-mode-map
