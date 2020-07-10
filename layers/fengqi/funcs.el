@@ -225,7 +225,10 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
        (let* ((beg (if (use-region-p) (region-beginning) (line-beginning-position)))
               (end (if (use-region-p) (region-end) (line-end-position)))
               (cmd (buffer-substring-no-properties beg end))
-              (exe (concat ,name " " ,args " '" cmd "'")))
+              (exe (concat ,name " " ,args " '" cmd "'"))
+              ;; use bash for async-shell-command, zsh handles differently for
+              ;;     sed -n -e 's/#.*//' -e "3 p" ./release-tests.txt
+              (shell-file-name "/bin/bash"))
          (message "eval: %s" exe)
          (async-shell-command exe)
          (deactivate-mark)))))

@@ -681,10 +681,15 @@ before packages are loaded."
                        (kbd "M-e") #'symbol-overlay-put)
     (dolist (mode '(c-mode c++-mode))
       (evil-leader/set-key-for-mode mode
-        ","  'lsp-ui-peek-find-definitions
-        "."  'lsp-ui-peek-find-references
         "ff" 'spacemacs/clang-format-region-or-buffer
         "oo" 'fengqi/set-compile-command)))
+
+  (add-hook 'lsp-mode-hook
+            (lambda () (evil-leader/set-key-for-mode major-mode
+                         ","  'lsp-ui-peek-find-definitions
+                         "."  'lsp-ui-peek-find-references
+                         "j"  'lsp-ui-find-next-reference
+                         "k"  'lsp-ui-find-prev-reference)))
 
   (add-hook 'LaTeX-mode-hook
             (lambda ()
@@ -693,6 +698,8 @@ before packages are loaded."
                            '("XeLaTeX" "%`xelatex --synctex=1%(mode)%' %t" TeX-run-TeX nil t))))
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
   (defun arm-asm-setup () (progn (modify-syntax-entry ?/ ". 12") (modify-syntax-entry ?\; ".") (setq comment-start "//")))
+  ;; (add-hook 'nasm-mode-hook #'arm-asm-setup)
+  ;; (add-hook 'asm-mode-hook #'arm-asm-setup)
 
   ;; (fengqi/define-key org-mode-map
   ;;                    (kbd "<f10>")  #'org-tree-slide-move-previous-tree
