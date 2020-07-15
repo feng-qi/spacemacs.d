@@ -629,6 +629,7 @@ before packages are loaded."
   (global-company-mode t)
   (electric-pair-mode 1)
   (setq hscroll-step                  1
+        reb-re-syntax                 'string ; =C-c TAB= in re-builder to switch
         doom-modeline-height          20
         find-file-visit-truename      t
         compilation-window-height     20
