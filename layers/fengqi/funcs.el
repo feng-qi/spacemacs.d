@@ -272,6 +272,13 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
       (message "QR code for `%s':\n%s" input
                (buffer-substring-no-properties (point-min) (point-max))))))
 
+(defun fengqi/toggle-lsp-signature-render-documentation ()
+  "Toggle lsp mode for showing details of function signature or not."
+  (interactive)
+  (setq lsp-signature-render-documentation (not lsp-signature-render-documentation))
+  (message "lsp-signature-render-documentation %s"
+           (if lsp-signature-render-documentation "enabled" "disabled")))
+
 (defun fengqi/set-frame-position-width-height (x y w h)
   (let ((frame (selected-frame)))
     (set-frame-position frame x y)

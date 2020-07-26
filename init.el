@@ -670,7 +670,7 @@ before packages are loaded."
     (kbd "pf")  'counsel-git
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
-    (kbd "toi") 'org-toggle-inline-images
+    (kbd "te")  'fengqi/toggle-lsp-signature-render-documentation
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
     (kbd "wv")  'split-window-right-and-focus
