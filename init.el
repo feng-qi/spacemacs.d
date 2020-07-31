@@ -162,6 +162,7 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(chinese-pyim
                                     chinese-word-at-point
+                                    treemacs-icons-dired
                                     smartparens
                                     vi-tilde-fringe
                                     evil-escape
@@ -179,6 +180,7 @@ This function should only modify configuration layer settings."
                                     spaceline
                                     clojure-cheatsheet
                                     org-brain
+                                    org-pomodoro
                                     )
 
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -667,6 +669,7 @@ before packages are loaded."
     (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard
     (kbd "ot")  (lambda () (interactive) (fengqi/touch-file-now (buffer-file-name)))
     (kbd "ov")  'fengqi/calc-on-rectangle
+    (kbd "ow")  'delete-trailing-whitespace
     (kbd "pf")  'counsel-git
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
@@ -714,7 +717,7 @@ before packages are loaded."
                                  (calc . t)
                                  (python . t)))
     (add-to-list 'org-modules 'org-tempo)
-    (add-to-list 'org-export-backends 'ox-md)
+    (add-to-list 'org-export-backends 'md)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil
           org-src-window-setup 'split-window-below
