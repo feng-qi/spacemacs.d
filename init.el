@@ -145,7 +145,8 @@ This function should only modify configuration layer settings."
                                       bing-dict
                                       dictionary
                                       pyim-wbdict
-                                      ;; fd-dired
+                                      rg
+                                      fd-dired
                                       ;; all-the-icons-dired
                                       ;; diredfl
                                       dired-subtree
@@ -173,6 +174,9 @@ This function should only modify configuration layer settings."
                                     lorem-ipsum
                                     gh-md
                                     multiple-cursors
+                                    ycmd
+                                    company-ycmd
+                                    flycheck-ycmd
                                     ace-pinyin
                                     find-by-pinyin-dired
                                     fancy-battery
@@ -654,6 +658,8 @@ before packages are loaded."
     (kbd "ct")  'fengqi/tabify-region-or-buffer
     (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
     (kbd "fCr") 'revert-buffer-with-coding-system
+    (kbd "fd")  'fd-dired
+    (kbd "fF")  'fengqi/search-for-file
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'widen
@@ -759,6 +765,13 @@ before packages are loaded."
     (defalias #'forward-evil-word #'forward-evil-symbol))
   (with-eval-after-load 'magit
     (define-key magit-status-mode-map (kbd "%") #'magit-worktree))
+  (with-eval-after-load 'rg
+    (rg-define-search fengqi/search-for-file
+      :files "everything"
+      :dir ask
+      :confirm always
+      :flags ("--files"))
+    (define-key rg-mode-map (kbd "?") #'rg-menu))
 
   (setq c-default-style "k&r")
   (setq-default tab-width      4
