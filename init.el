@@ -651,6 +651,7 @@ before packages are loaded."
   (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}r\\.[[:alnum:]-_]+\\'" . lisp-mode))
 
   (spacemacs/set-leader-keys
+    (kbd "RET") 'fengqi/eshell-command
     (kbd "8")   'spacemacs/toggle-maximize-frame
     (kbd "bv")  'mark-whole-buffer
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
