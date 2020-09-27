@@ -237,13 +237,14 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 (fengqi|eval-region-or-line-by-??? "bash" "-c")
 (fengqi|eval-region-or-line-by-??? "python3" "-c")
 
-(evil-define-operator fengqi/eshell-command (beg end type)
-  (interactive "<R>")
-  (let ((command (buffer-substring beg end)))
-    (if (eq type 'block)
-        (message "Execute on block not supported yet.")
-      (progn (message "eshell-command: %s" command)
-             (eshell-command command)))))
+(with-eval-after-load 'evil
+  (evil-define-operator fengqi/eshell-command (beg end type)
+    (interactive "<R>")
+    (let ((command (buffer-substring beg end)))
+      (if (eq type 'block)
+          (message "Execute on block not supported yet.")
+        (progn (message "eshell-command: %s" command)
+               (eshell-command command))))))
 
 (defun fengqi/generate-number-sequence (step)
   (interactive "P")
