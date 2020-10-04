@@ -244,7 +244,14 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
       (if (eq type 'block)
           (message "Execute on block not supported yet.")
         (progn (message "eshell-command: %s" command)
-               (eshell-command command))))))
+               (eshell-command command)))))
+
+  (evil-define-operator fengqi/calc-eval (beg end type)
+    (interactive "<R>")
+    (let ((expression (concat "evalv(" (buffer-substring beg end) ")")))
+      (if (eq type 'block)
+          (message "Eval on block not supported yet.")
+        (message "%s\n= %s" expression (calc-eval expression))))))
 
 (defun fengqi/generate-number-sequence (step)
   (interactive "P")

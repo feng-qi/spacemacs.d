@@ -657,6 +657,7 @@ before packages are loaded."
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
     (kbd "cs")  'fengqi/untabify-region-or-buffer
     (kbd "ct")  'fengqi/tabify-region-or-buffer
+    (kbd "ee")  'fengqi/calc-eval
     (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
     (kbd "fCr") 'revert-buffer-with-coding-system
     (kbd "fd")  'fd-dired
