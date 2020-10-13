@@ -842,6 +842,10 @@ before packages are loaded."
       (kbd "+")   'evil-numbers/inc-at-pt
       (kbd "-")   'evil-numbers/dec-at-pt
       (kbd "M-.") 'bing-dict-brief-at-point)
+     (evil-ex-completion-map
+      (kbd "C-f") #'forward-char
+      (kbd "C-b") #'backward-char
+      (kbd "C-a") #'beginning-of-line)
      (evil-hybrid-state-map
       (kbd "M-.") 'bing-dict-brief-at-point)))
   )
