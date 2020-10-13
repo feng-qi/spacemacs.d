@@ -713,19 +713,19 @@ before packages are loaded."
   ;; (add-hook 'nasm-mode-hook #'arm-asm-setup)
   ;; (add-hook 'asm-mode-hook #'arm-asm-setup)
 
-  ;; (fengqi/define-key org-mode-map
-  ;;                    (kbd "<f10>")  #'org-tree-slide-move-previous-tree
-  ;;                    (kbd "<f9>")   #'org-tree-slide-move-next-tree
-  ;;                    (kbd "<f8>")   #'org-tree-slide-mode)
-  ;; (org-tree-slide-simple-profile)
   (with-eval-after-load "org"
     (add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t) (auto-fill-mode t)))
     (org-babel-do-load-languages
      'org-babel-load-languages '((shell . t)
                                  (calc . t)
                                  (python . t)))
-    (add-to-list 'org-modules 'org-tempo)
-    (add-to-list 'org-export-backends 'md)
+    ;; (add-to-list 'org-modules 'org-tempo)
+    ;; (add-to-list 'org-export-backends 'md)
+    ;; (org-tree-slide-simple-profile)
+    (fengqi/define-key org-mode-map
+                       ;; (kbd "<f8>")   #'org-tree-slide-mode
+                       ;; (kbd "<f9>")   #'org-tree-slide-move-next-tree
+                       (kbd "C-c ,")  #'org-insert-structure-template)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil
           org-src-window-setup 'split-window-below
