@@ -251,7 +251,9 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
     (let ((expression (concat "evalv(" (buffer-substring beg end) ")")))
       (if (eq type 'block)
           (message "Eval on block not supported yet.")
-        (message "%s\n= %s" expression (calc-eval expression))))))
+        (let ((result (calc-eval expression)))
+          (kill-new result)
+          (message "%s\n= %s" expression (calc-eval expression)))))))
 
 (defun fengqi/generate-number-sequence (step)
   (interactive "P")
