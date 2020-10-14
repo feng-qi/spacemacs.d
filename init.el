@@ -46,6 +46,7 @@ This function should only modify configuration layer settings."
      systemd
      (lsp :variables
           lsp-enable-file-watchers nil
+          lsp-signature-render-documentation nil
           lsp-ui-doc-enable nil
           lsp-ui-sideline-enable nil)
      (treemacs :variables treemacs-position 'right)
@@ -81,7 +82,7 @@ This function should only modify configuration layer settings."
      idris
      octave
      (lua :variables lua-indent-level 4)
-     rust
+     (rust :variables lsp-rust-server 'rust-analyzer)
      ;; (scala :variables
      ;;        scala-backend 'scala-metals
      ;;        scala-indent:use-javadoc-style t
@@ -112,6 +113,7 @@ This function should only modify configuration layer settings."
      pdf
      (python :variables
              python-backend 'lsp
+             python-formatter 'yapf
              dap-python-executable "python3"
              flycheck-python-pycompile-executable "python3"
              python-shell-interpreter "python3"
@@ -174,6 +176,8 @@ This function should only modify configuration layer settings."
                                     lorem-ipsum
                                     gh-md
                                     multiple-cursors
+                                    hungry-delete
+                                    rtags
                                     ycmd
                                     company-ycmd
                                     flycheck-ycmd
@@ -220,7 +224,7 @@ It should only modify the values of Spacemacs settings."
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
    ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
-   ;; (default spacemacs-27.1.pdmp)
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
    dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
@@ -250,7 +254,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; latest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. Spacelpa is currently in
+   ;; experimental state please use only for testing purposes.
+   ;; (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
@@ -278,6 +284,11 @@ It should only modify the values of Spacemacs settings."
                                        hybrid-mode-enable-evilified-state t
                                        hybrid-mode-enable-hjkl-bindings t
                                        hybrid-mode-default-state 'normal)
+
+   ;; If non-nil show the version string in the Spacemacs buffer. It will
+   ;; appear as (spacemacs version)@(emacs version)
+   ;; (default t)
+   dotspacemacs-startup-buffer-show-version t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -571,6 +582,13 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-use-clean-aindent-mode t
 
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -578,7 +596,11 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs nil
+
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -644,6 +666,7 @@ before packages are loaded."
         sp-highlight-wrap-overlay     nil
         sp-highlight-wrap-tag-overlay nil)
 
+  (add-to-list 'auto-mode-alist '("\\.cppm\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.ad\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.def\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.c\\'"   . c++-mode))
@@ -728,12 +751,15 @@ before packages are loaded."
                        (kbd "C-c ,")  #'org-insert-structure-template)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil
+          org-babel-python-command         "python3"
           org-src-window-setup 'split-window-below
           org-link-frame-setup '((vm      . vm-visit-folder-other-frame)
                                  (vm-imap . vm-visit-imap-folder-other-frame)
                                  (gnus    . org-gnus-no-new-news)
                                  (file    . find-file)
                                  (wl      . wl-other-frame))
+          org-confirm-babel-evaluate (lambda (lang body)
+                                       (not (member lang '("sh" "bash" "shell" "python" "elisp"))))
           org-agenda-files '("~/org")
           ;; org-pomodoro-length 40
           ;; org-hide-leading-stars t
@@ -799,18 +825,18 @@ before packages are loaded."
 
   (ivy-set-actions
    'counsel-find-file
-   '(("j" find-file-other-window "other window")
-     ("f" find-file-other-frame "other frame")
-     ("b" counsel-find-file-cd-bookmark-action "cd bookmark")
-     ("x" counsel-find-file-extern "open externally")
+   '(("b" counsel-find-file-cd-bookmark-action "cd bookmark")
+     ("c" counsel-find-file-copy "copy file")
+     ("d" counsel-find-file-delete "delete")
+     ("i" ivy--action-insert "insert")
+     ("k" counsel-find-file-mkdir-action "mkdir")
+     ("l" find-file-literally "open literally")
+     ("m" counsel-find-file-move "move or rename")
      ("r" counsel-find-file-as-root "open as root")
      ("R" find-file-read-only "read only")
-     ("l" find-file-literally "open literally")
-     ("k" counsel-find-file-delete "delete")
-     ("c" counsel-find-file-copy "copy file")
-     ("m" counsel-find-file-move "move or rename")
      ("t" fengqi/touch-file-now "touch")
-     ("d" counsel-find-file-mkdir-action "mkdir")))
+     ("w" ivy--action-copy "copy current string")
+     ("x" counsel-find-file-extern "open externally")))
 
   (fengqi/define-key-for-keymaps
    '((global-map
