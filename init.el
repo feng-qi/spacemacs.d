@@ -94,7 +94,7 @@ This function should only modify configuration layer settings."
      ;; dash
      debug
      git
-     ;; github
+     github
      (version-control :variables
                       version-control-diff-side 'left
                       version-control-global-margin nil)
@@ -762,6 +762,12 @@ before packages are loaded."
   (with-eval-after-load "dired"
     ;; (diredfl-global-mode)
     ;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    (evil-define-key 'normal dired-mode-map
+      "h"   'dired-subtree-up
+      "H"   'evil-window-top
+      "L"   'evil-window-bottom
+      "K"   'dired-subtree-previous-sibling
+      "J"   'dired-subtree-next-sibling)
     (add-hook 'dired-mode-hook 'dired-filter-mode))
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
