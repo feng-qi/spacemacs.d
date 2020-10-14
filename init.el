@@ -69,8 +69,8 @@ This function should only modify configuration layer settings."
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
      (chinese :variables
-              pyim-default-scheme 'wubi
-              chinese-enable-youdao-dict t)
+              ;; pyim-default-scheme 'wubi
+              chinese-default-input-method 'wubi)
      (clojure :variables clojure-enable-fancify-symbols nil)
      emacs-lisp
      scheme
@@ -144,7 +144,7 @@ This function should only modify configuration layer settings."
                                       memory-usage
                                       bing-dict
                                       dictionary
-                                      pyim-wbdict
+                                      ;; pyim-wbdict
                                       rg
                                       fd-dired
                                       ;; all-the-icons-dired
@@ -790,7 +790,7 @@ before packages are loaded."
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 
   ;; pyim-wbdict setup
-  (pyim-wbdict-v98-enable)
+  ;; (pyim-wbdict-v98-enable)
 
   (spacemacs|define-custom-layout "@Shell"
     :binding "s"
