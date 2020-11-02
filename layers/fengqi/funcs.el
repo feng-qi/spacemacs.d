@@ -184,13 +184,13 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
 Prompt for a choice.
 URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
   (interactive)
-  (let (($sort-by (ido-completing-read "Sort by:" '("size" "date" "name" "directory-first"))))
-    (cond ((equal $sort-by "size") (setq $arg "-alhS"))
-          ((equal $sort-by "date") (setq $arg "-alht"))
-          ((equal $sort-by "name") (setq $arg "-alh"))
-          ((equal $sort-by "directory-first") (setq $arg "-alh --group-directories-first"))
-          (t (error "logic error 09535")))
-    (dired-sort-other $arg)))
+  (let* ((sort-by (ivy-read "Sort by:" '("name" "date" "size" "directory-first")))
+         (arg (cond ((equal sort-by "size") "-alhS")
+                    ((equal sort-by "date") "-alht")
+                    ((equal sort-by "name") "-alh")
+                    ((equal sort-by "directory-first") "-alh --group-directories-first")
+                    (t (error "logic error 09535")))))
+    (dired-sort-other arg)))
 
 (defun fengqi--osc52-send (content)
   "Send string using OSC 52."
@@ -204,17 +204,6 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
     (fengqi--osc52-send content)
     (deactivate-mark)
     (message "osc52 sent: `%s'" content)))
-
-(defun fengqi/calc-eval (&optional multi-formulas)
-  (interactive "P")
-  (let* ((beg (if (use-region-p) (region-beginning) (line-beginning-position)))
-         (end (if (use-region-p) (region-end) (line-end-position)))
-         (formula (string-trim (buffer-substring beg end)))
-         (formula (if multi-formulas (subst-char-in-string ?\n ?, formula) formula))
-         (result (calc-eval formula)))
-    (kill-new result)
-    (message "%s = %s" formula result)
-    (deactivate-mark)))
 
 (defmacro fengqi|eval-region-or-line-by-??? (name args)
   (let ((new-func (intern (concat "fengqi/eval-region-or-line-by-" name))))
