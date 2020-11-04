@@ -343,6 +343,9 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
     (shell-command touch-cmd)
     (message "touched: %s" file)))
 
+(defun fengqi/async-run-file (file)
+  (async-shell-command file))
+
 (defun fengqi/ivy-rg-find-file-in-project ()
   "Forward to `describe-function'."
   (interactive)

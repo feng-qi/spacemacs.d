@@ -36,10 +36,7 @@ This function should only modify configuration layer settings."
      (ivy :variables
           ivy-count-format "(%d/%d) ")
      command-log
-     (search-engine :variables
-                    browse-url-browser-function 'browse-url-generic
-                    engine/browser-function 'browse-url-generic
-                    browse-url-generic-program "firefox")
+     search-engine
      restclient
      gnus
      graphviz
@@ -53,7 +50,8 @@ This function should only modify configuration layer settings."
      docker
      nginx
      vimscript
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-use-company-box t)
      better-defaults
      ;; semantic
      imenu-list
@@ -657,6 +655,7 @@ before packages are loaded."
   (global-company-mode t)
   (electric-pair-mode 1)
   (setq hscroll-step                  1
+        tab-always-indent             t
         reb-re-syntax                 'string ; =C-c TAB= in re-builder to switch
         doom-modeline-height          20
         find-file-visit-truename      t
@@ -669,7 +668,6 @@ before packages are loaded."
   (add-to-list 'auto-mode-alist '("\\.cppm\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.ad\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.def\\'" . c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.c\\'"   . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}t\\.[[:alnum:]-_]+\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}r\\.[[:alnum:]-_]+\\'" . lisp-mode))
 
@@ -836,7 +834,7 @@ before packages are loaded."
      ("R" find-file-read-only "read only")
      ("t" fengqi/touch-file-now "touch")
      ("w" ivy--action-copy "copy current string")
-     ("x" counsel-find-file-extern "open externally")))
+     ("x" fengqi/async-run-file "execute file")))
 
   (fengqi/define-key-for-keymaps
    '((global-map
