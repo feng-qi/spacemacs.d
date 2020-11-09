@@ -243,6 +243,12 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
           (kill-new result)
           (message "%s\n= %s" expression (calc-eval expression)))))))
 
+(defun fengqi/bing-dict-search ()
+  (interactive)
+  (if (region-active-p)
+      (bing-dict-brief (string-trim (evil-get-selection)))
+    (bing-dict-brief-at-point)))
+
 (defun fengqi/generate-number-sequence (step)
   (interactive "P")
   (let ((start (string-to-number (read-string "Range start (1): " nil nil "1")))

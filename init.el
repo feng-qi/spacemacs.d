@@ -686,8 +686,7 @@ before packages are loaded."
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'widen
-    (kbd "odd") 'dictionary-search
-    (kbd "odb") 'bing-dict-brief
+    (kbd "od")  'dictionary-search
     (kbd "oec") 'fengqi/calc-eval
     (kbd "oee") 'eval-and-replace
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
@@ -834,6 +833,10 @@ before packages are loaded."
      ("x" fengqi/async-run-file "execute file")))
 
   (evil-define-key '(normal visual) 'global
+    (kbd "C-t")   'spacemacs/jump-to-last-layout
+    (kbd "+")     'evil-numbers/inc-at-pt
+    (kbd "-")     'evil-numbers/dec-at-pt
+    (kbd "M-.")   'fengqi/bing-dict-search
     (kbd "RET")   'fengqi/eshell-command)
 
   (fengqi/define-key-for-keymaps
@@ -846,9 +849,7 @@ before packages are loaded."
       (kbd "RET") 'newline)
      (dired-mode-map
       (kbd "TAB")     'dired-subtree-toggle
-      (kbd "<tab>")   'dired-subtree-toggle
       (kbd "S-TAB")   'dired-subtree-cycle
-      (kbd "<S-tab>") 'dired-subtree-cycle
       (kbd "i")       'fengqi/dired-toggle-read-only-in-evil-normal
       (kbd "s")       'fengqi/dired-sort-other
       (kbd "f")       'evil-find-char)
@@ -857,27 +858,16 @@ before packages are loaded."
       (kbd "p") #'symbol-overlay-jump-prev
       (kbd "r") #'symbol-overlay-rename
       (kbd "t") #'symbol-overlay-toggle-in-scope)
-     (evil-visual-state-map
-      (kbd "is") 'evil-inner-symbol
-      (kbd "+")  'evil-numbers/inc-at-pt
-      (kbd "-")  'evil-numbers/dec-at-pt)
      (evil-normal-state-map
-      (kbd "C-t") 'spacemacs/jump-to-last-layout
       (kbd "M-e") 'symbol-overlay-put
-      (kbd "M-i") 'symbol-overlay-put
       (kbd "M-n") 'symbol-overlay-switch-forward
       (kbd "M-p") 'symbol-overlay-switch-backward
       (kbd "g[")  'backward-page
-      (kbd "g]")  'forward-page
-      (kbd "+")   'evil-numbers/inc-at-pt
-      (kbd "-")   'evil-numbers/dec-at-pt
-      (kbd "M-.") 'bing-dict-brief-at-point)
+      (kbd "g]")  'forward-page)
      (evil-ex-completion-map
       (kbd "C-f") #'forward-char
       (kbd "C-b") #'backward-char
-      (kbd "C-a") #'beginning-of-line)
-     (evil-hybrid-state-map
-      (kbd "M-.") 'bing-dict-brief-at-point)))
+      (kbd "C-a") #'beginning-of-line)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
