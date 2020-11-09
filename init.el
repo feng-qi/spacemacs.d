@@ -149,6 +149,7 @@ This function should only modify configuration layer settings."
                                       fd-dired
                                       ;; all-the-icons-dired
                                       ;; diredfl
+                                      dired-rsync
                                       dired-subtree
                                       dired-narrow
                                       dired-filter
@@ -672,7 +673,6 @@ before packages are loaded."
   (add-to-list 'auto-mode-alist '("\\.c\\.[0-9]\\{3\\}r\\.[[:alnum:]-_]+\\'" . lisp-mode))
 
   (spacemacs/set-leader-keys
-    (kbd "RET") 'fengqi/eshell-command
     (kbd "8")   'spacemacs/toggle-maximize-frame
     (kbd "bv")  'mark-whole-buffer
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
@@ -720,9 +720,7 @@ before packages are loaded."
   (add-hook 'lsp-mode-hook
             (lambda () (evil-leader/set-key-for-mode major-mode
                          ","  'lsp-ui-peek-find-definitions
-                         "."  'lsp-ui-peek-find-references
-                         "j"  'lsp-ui-find-next-reference
-                         "k"  'lsp-ui-find-prev-reference)))
+                         "."  'lsp-ui-peek-find-references)))
 
   (add-hook 'LaTeX-mode-hook
             (lambda ()
@@ -787,6 +785,7 @@ before packages are loaded."
     ;; (diredfl-global-mode)
     ;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (evil-define-key 'normal dired-mode-map
+      "r"   'dired-rsync
       "h"   'dired-subtree-up
       "H"   'evil-window-top
       "L"   'evil-window-bottom
@@ -830,11 +829,12 @@ before packages are loaded."
      ("k" counsel-find-file-mkdir-action "mkdir")
      ("l" find-file-literally "open literally")
      ("m" counsel-find-file-move "move or rename")
-     ("r" counsel-find-file-as-root "open as root")
-     ("R" find-file-read-only "read only")
      ("t" fengqi/touch-file-now "touch")
      ("w" ivy--action-copy "copy current string")
      ("x" fengqi/async-run-file "execute file")))
+
+  (evil-define-key '(normal visual) 'global
+    (kbd "RET")   'fengqi/eshell-command)
 
   (fengqi/define-key-for-keymaps
    '((global-map
