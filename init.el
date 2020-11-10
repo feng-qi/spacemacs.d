@@ -93,7 +93,8 @@ This function should only modify configuration layer settings."
      ;; dash
      debug
      git
-     github
+     (github :variables
+             forge-topic-list-limit '(15 . 5))
      (version-control :variables
                       version-control-diff-side 'left
                       version-control-global-margin nil)

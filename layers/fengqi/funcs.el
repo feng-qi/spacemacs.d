@@ -184,10 +184,11 @@ See URL `https://stackoverflow.com/questions/3034237/check-if-current-emacs-buff
 Prompt for a choice.
 URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
   (interactive)
-  (let* ((sort-by (ivy-read "Sort by:" '("name" "date" "size" "directory-first")))
+  (let* ((sort-by (ivy-read "Sort by:" '("name" "date" "origin" "size" "directory-first")))
          (arg (cond ((equal sort-by "size") "-alhS")
                     ((equal sort-by "date") "-alht")
                     ((equal sort-by "name") "-alh")
+                    ((equal sort-by "origin") "-al")
                     ((equal sort-by "directory-first") "-alh --group-directories-first")
                     (t (error "logic error 09535")))))
     (dired-sort-other arg)))
@@ -242,6 +243,18 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
         (let ((result (calc-eval expression)))
           (kill-new result)
           (message "%s\n= %s" expression (calc-eval expression)))))))
+
+(with-eval-after-load 'term
+  (defun fengqi/toggle-term-char-or-line-mode ()
+    (interactive)
+    (if (term-in-char-mode)
+        (term-line-mode)
+      (term-char-mode)))
+
+  (define-key term-mode-map (kbd "C-c C-j") #'fengqi/toggle-term-char-or-line-mode)
+  (define-key term-mode-map (kbd "C-c C-k") #'fengqi/toggle-term-char-or-line-mode)
+  (define-key term-raw-map (kbd "C-c C-j") #'fengqi/toggle-term-char-or-line-mode)
+  (define-key term-raw-map (kbd "C-c C-k") #'fengqi/toggle-term-char-or-line-mode))
 
 (defun fengqi/bing-dict-search ()
   (interactive)
