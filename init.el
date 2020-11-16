@@ -820,6 +820,14 @@ before packages are loaded."
     :body
     (vterm))
 
+  (with-eval-after-load 'eshell
+    (define-key eshell-hist-mode-map (kbd "C-r") #'counsel-esh-history)
+    (defun eshell-find-alias-function (name)
+      "Check whether a function called `eshell/NAME' exists."
+      (let ((eshell-allowed-alias-list '("which" "alias")))
+        (if (member name eshell-allowed-alias-list)
+            (intern-soft (concat "eshell/" name))))))
+
   (ivy-set-actions
    'counsel-find-file
    '(("b" counsel-find-file-cd-bookmark-action "cd bookmark")
