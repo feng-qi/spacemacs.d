@@ -821,7 +821,8 @@ before packages are loaded."
     (vterm))
 
   (with-eval-after-load 'eshell
-    (define-key eshell-hist-mode-map (kbd "C-r") #'counsel-esh-history)
+    (evil-define-key 'insert eshell-hist-mode-map
+      (kbd "C-r")  #'counsel-esh-history)
     (defun eshell-find-alias-function (name)
       "Check whether a function called `eshell/NAME' exists."
       (let ((eshell-allowed-alias-list '("which" "alias")))
@@ -855,6 +856,7 @@ before packages are loaded."
       (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point
       (kbd "M-c") 'fengqi/capitalize-region-or-symbol-at-point
       (kbd "M-.") 'bing-dict-brief-at-point
+      (kbd ";")   'self-insert-command
       (kbd "RET") 'newline)
      (dired-mode-map
       (kbd "TAB")     'dired-subtree-toggle
