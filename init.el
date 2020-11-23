@@ -821,13 +821,14 @@ before packages are loaded."
     (vterm))
 
   (with-eval-after-load 'eshell
-    (evil-define-key 'insert eshell-hist-mode-map
-      (kbd "C-r")  #'counsel-esh-history)
     (defun eshell-find-alias-function (name)
       "Check whether a function called `eshell/NAME' exists."
       (let ((eshell-allowed-alias-list '("which" "alias")))
         (if (member name eshell-allowed-alias-list)
             (intern-soft (concat "eshell/" name))))))
+  (with-eval-after-load 'em-hist
+    (define-key eshell-hist-mode-map
+      (kbd "C-r")  #'counsel-esh-history))
 
   (ivy-set-actions
    'counsel-find-file
