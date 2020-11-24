@@ -325,11 +325,11 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-light
+   dotspacemacs-themes '(zenburn
                          solarized-dark
                          spacemacs-dark
                          spacemacs-light
-                         zenburn
+                         solarized-light
                          leuven
                          monokai)
 
@@ -646,7 +646,7 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (unless (eq system-type 'windows-nt)
-    ;; (exec-path-from-shell-initialize)
+    (exec-path-from-shell-initialize)
     (setenv "BASH_ENV" (expand-file-name "~/.bashrc")))
   (when (eq system-type 'darwin)
     (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
@@ -803,10 +803,12 @@ before packages are loaded."
       :confirm always
       :flags ("--files"))
     (define-key rg-mode-map (kbd "?") #'rg-menu))
+  (with-eval-after-load 'tramp
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
   (setq c-default-style "k&r")
   (setq-default tab-width      4
-                fill-column    72
+                fill-column    80
                 truncate-lines t
                 c-basic-offset 4)
 
