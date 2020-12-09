@@ -675,6 +675,7 @@ before packages are loaded."
 
   (spacemacs/set-leader-keys
     (kbd "8")   'spacemacs/toggle-maximize-frame
+    (kbd "RET") 'fengqi/eshell-command
     (kbd "bv")  'mark-whole-buffer
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
     (kbd "cs")  'fengqi/untabify-region-or-buffer
@@ -849,8 +850,7 @@ before packages are loaded."
     (kbd "C-t")   'spacemacs/jump-to-last-layout
     (kbd "+")     'evil-numbers/inc-at-pt
     (kbd "-")     'evil-numbers/dec-at-pt
-    (kbd "M-.")   'fengqi/bing-dict-search
-    (kbd "RET")   'fengqi/eshell-command)
+    (kbd "M-.")   'fengqi/bing-dict-search)
 
   (fengqi/define-key-for-keymaps
    '((global-map
