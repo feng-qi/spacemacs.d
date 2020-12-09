@@ -694,6 +694,8 @@ before packages are loaded."
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
     (kbd "oep") 'fengqi/eval-region-or-line-by-python3
     (kbd "oez") 'fengqi/eval-region-or-line-by-zsh
+    (kbd "ogg") 'fengqi/magit-status-add-dotfiles-config
+    (kbd "ogd") 'fengqi/magit-status-remove-dotfiles-config
     (kbd "oi")  'fengqi/generate-number-sequence
     (kbd "op")  'plur-replace
     (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard

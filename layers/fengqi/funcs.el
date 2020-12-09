@@ -379,3 +379,20 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
             ;; :require-match t
             :action (lambda (x) (find-file (expand-file-name x "~/.spacemacs.d")))
             :caller 'fengqi/ivy-rg-find-file-in-project))
+
+(defun fengqi/magit-status-add-dotfiles-config ()
+  (interactive)
+  (require 'magit)
+  (let ((git-dir (concat "--git-dir=" (expand-file-name "~/dotfiles")))
+        (worktree (concat "--work-tree=" (expand-file-name "~"))))
+    (add-to-list 'magit-git-global-arguments worktree)
+    (add-to-list 'magit-git-global-arguments git-dir)
+    (call-interactively 'magit-status)))
+
+(defun fengqi/magit-status-remove-dotfiles-config ()
+  (interactive)
+  (require 'magit)
+  (let ((git-dir (concat "--git-dir=" (expand-file-name "~/dotfiles")))
+        (worktree (concat "--work-tree=" (expand-file-name "~"))))
+    (setq magit-git-global-arguments (remove worktree (remove git-dir magit-git-global-arguments)))
+    (message "magit dotfiles configuration removed")))
