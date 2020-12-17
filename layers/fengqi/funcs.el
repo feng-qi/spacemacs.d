@@ -227,6 +227,24 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 (fengqi|eval-region-or-line-by-??? "python3" "-c")
 
 (with-eval-after-load 'evil
+
+  (evil-define-operator fengqi/show-different-radix (beg end type)
+    (interactive "<R>")
+    (let ((num-str (buffer-substring beg end)))
+      (if (eq type 'block)
+          (message "Execute on block not supported yet.")
+        (let* ((value (string-to-number (calc-eval num-str)))
+               (decimal (math-format-radix value))
+               (calc-number-radix 2)
+               (binary (math-format-radix value))
+               (calc-number-radix 8)
+               (octal (math-format-radix value))
+               (calc-number-radix 16)
+               (hex (math-format-radix value)))
+          (forward-line 1)
+          (insert (format "bin: %32s\ndec: %32s\noct: %32s\nhex: %32s\n"
+                          binary decimal octal hex))))))
+
   (evil-define-operator fengqi/eshell-command (beg end type)
     (interactive "<R>")
     (let ((command (buffer-substring beg end)))

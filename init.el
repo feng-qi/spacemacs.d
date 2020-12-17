@@ -688,6 +688,7 @@ before packages are loaded."
     (kbd "iv")  'rectangle-number-lines ; https://www.reddit.com/r/emacs/comments/3n1ikz/turn_column_of_0s_into_incrementing_values/
     (kbd "nn")  'fengqi/narrow-to-region-or-defun
     (kbd "nw")  'widen
+    (kbd "oc")  'fengqi/show-different-radix
     (kbd "od")  'dictionary-search
     (kbd "oec") 'fengqi/calc-eval
     (kbd "oee") 'eval-and-replace
