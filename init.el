@@ -42,7 +42,11 @@ This function should only modify configuration layer settings."
      graphviz
      systemd
      (lsp :variables
+          lsp-ui-sideline-show-code-actions nil
+          lsp-headerline-breadcrumb-enable nil
           lsp-enable-file-watchers nil
+          lsp-enable-on-type-formatting nil
+          lsp-enable-indentation nil
           lsp-signature-render-documentation nil
           lsp-ui-doc-enable nil
           lsp-ui-sideline-enable nil)
