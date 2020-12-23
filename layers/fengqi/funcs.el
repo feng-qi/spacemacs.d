@@ -255,12 +255,15 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 
   (evil-define-operator fengqi/calc-eval (beg end type)
     (interactive "<R>")
-    (let ((expression (concat "evalv(" (buffer-substring beg end) ")")))
-      (if (eq type 'block)
-          (message "Eval on block not supported yet.")
-        (let ((result (calc-eval expression)))
-          (kill-new result)
-          (message "%s\n= %s" expression (calc-eval expression)))))))
+    (save-excursion
+      (let ((expression (concat "evalv(" (buffer-substring beg end) ")")))
+        (if (eq type 'block)
+            (message "Eval on block not supported yet.")
+          (let ((result (calc-eval expression)))
+            (kill-new result)
+            (forward-line 1)
+            (message "%s\n= %s" expression result)
+            (insert (format "= %s\n" result))))))))
 
 (with-eval-after-load 'term
   (defun fengqi/toggle-term-char-or-line-mode ()
