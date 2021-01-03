@@ -351,8 +351,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font `("Source Code Pro"
-                               :size ,(if (string= system-name "qi-laptop") 15 13)
+   dotspacemacs-default-font `("Victor Mono"
+                               :size ,(if (string= system-name "qi-manjaro") 15 13)
                                :weight normal
                                :width normal)
 
@@ -658,7 +658,9 @@ before packages are loaded."
           mac-option-modifier  'meta
           ns-function-modifier 'control
           mac-command-modifier 'meta))
-  (global-company-mode t)
+  (global-company-mode 1)
+  (global-so-long-mode 1)
+  (size-indication-mode 1)
   (electric-pair-mode 1)
   (setq hscroll-step                  1
         tab-always-indent             t
@@ -803,6 +805,7 @@ before packages are loaded."
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
   (with-eval-after-load 'magit
+    (define-key magit-status-mode-map (kbd "M-RET") #'forge-browse-dwim)
     (define-key magit-status-mode-map (kbd "%") #'magit-worktree))
   (with-eval-after-load 'rg
     (rg-define-search fengqi/search-for-file
@@ -839,6 +842,13 @@ before packages are loaded."
   (with-eval-after-load 'em-hist
     (define-key eshell-hist-mode-map
       (kbd "C-r")  #'counsel-esh-history))
+  (with-eval-after-load 'calendar
+    (add-hook 'calendar-today-visible-hook #'calendar-mark-today)
+    (setq calendar-chinese-all-holidays-flag t))
+
+  (setq browse-url-handlers
+        `(("\\`https://github.com" . ,(if (fboundp 'eaf-open-browser) 'eaf-open-browser 'browse-url-default-browser))
+          ("\\`file:" . browse-url-default-browser)))
 
   (ivy-set-actions
    'counsel-find-file
