@@ -160,6 +160,7 @@ This function should only modify configuration layer settings."
                                       dired-filter
                                       presentation
                                       org-tree-slide
+                                      kconfig-mode
                                       ;; protobuf-mode
                                       ;; (targets :location (recipe :fetcher github :repo "noctuid/targets.el"))
                                       exec-path-from-shell)
@@ -672,6 +673,12 @@ before packages are loaded."
         sp-highlight-pair-overlay     nil
         sp-highlight-wrap-overlay     nil
         sp-highlight-wrap-tag-overlay nil)
+  (setq c-default-style
+        '((java-mode . "java")
+          (awk-mode . "awk")
+          (other . "k&r")))
+  (setq-default fill-column    80
+                truncate-lines t)
 
   (add-to-list 'auto-mode-alist '("\\.cppm\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.ad\\'" . c++-mode))
@@ -684,6 +691,7 @@ before packages are loaded."
     (kbd "RET") 'fengqi/eshell-command
     (kbd "bv")  'mark-whole-buffer
     (kbd "by")  'spacemacs/copy-whole-buffer-to-clipboard
+    (kbd "ce")  'fengqi/show-hide-async-shell-command-window
     (kbd "cs")  'fengqi/untabify-region-or-buffer
     (kbd "ct")  'fengqi/tabify-region-or-buffer
     (kbd "ee")  'fengqi/calc-eval
@@ -816,12 +824,6 @@ before packages are loaded."
     (define-key rg-mode-map (kbd "?") #'rg-menu))
   (with-eval-after-load 'tramp
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
-
-  (setq c-default-style "k&r")
-  (setq-default tab-width      4
-                fill-column    80
-                truncate-lines t
-                c-basic-offset 4)
 
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 

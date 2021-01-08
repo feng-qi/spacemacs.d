@@ -417,3 +417,11 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
         (worktree (concat "--work-tree=" (expand-file-name "~"))))
     (setq magit-git-global-arguments (remove worktree (remove git-dir magit-git-global-arguments)))
     (message "magit dotfiles configuration removed")))
+
+(defun fengqi/show-hide-async-shell-command-window ()
+  "Show/Hide the window containing the Async Shell Command buffer."
+  (interactive)
+  (when-let ((buffer (get-buffer "*Async Shell Command*")))
+    (if (get-buffer-window buffer 'visible)
+        (delete-windows-on buffer)
+      (pop-to-buffer buffer))))
