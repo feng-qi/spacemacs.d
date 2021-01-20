@@ -714,7 +714,7 @@ before packages are loaded."
     (kbd "oi")  'fengqi/generate-number-sequence
     (kbd "op")  'plur-replace
     (kbd "oq")  'fengqi/qrencode-from-region-or-clipboard
-    (kbd "ot")  (lambda () (interactive) (fengqi/touch-file-now (buffer-file-name)))
+    (kbd "ot")  'fengqi/touch-current-buffer-file-now
     (kbd "ov")  'fengqi/calc-on-rectangle
     (kbd "ow")  'delete-trailing-whitespace
     (kbd "pf")  'counsel-git

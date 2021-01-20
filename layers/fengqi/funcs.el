@@ -379,9 +379,15 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
     (message "max: %f, min: %f, sum: %f, average: %f" maxv minv sum average)))
 
 (defun fengqi/touch-file-now (file)
-  (let ((touch-cmd (concat "touch " (expand-file-name file))))
+  (let ((touch-cmd (concat "touch " (shell-quote-argument (expand-file-name file)))))
     (shell-command touch-cmd)
     (message "touched: %s" file)))
+
+(defun fengqi/touch-current-buffer-file-now ()
+  (interactive)
+  (fengqi/touch-file-now (if (derived-mode-p 'dired-mode)
+                             (dired-get-file-for-visit)
+                           buffer-file-name)))
 
 (defun fengqi/async-run-file (file)
   (async-shell-command file))
