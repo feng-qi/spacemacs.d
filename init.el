@@ -113,7 +113,6 @@ This function should only modify configuration layer settings."
      markdown
      ;; (org :variables org-enable-reveal-js-support t)
      org
-     pdf
      (python :variables
              python-backend 'lsp
              python-formatter 'yapf
@@ -148,6 +147,10 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
+                                      orderless
+                                      ctable
+                                      deferred
+                                      epc
                                       memory-usage
                                       dts-mode
                                       bing-dict
@@ -870,6 +873,22 @@ before packages are loaded."
   (setq browse-url-handlers
         `(("\\`https://github.com" . ,(if (fboundp 'eaf-open-browser) 'eaf-open-browser 'browse-url-default-browser))
           ("\\`file:" . browse-url-default-browser)))
+
+  (defun orderless//flex-if-twiddle (pattern _index _total)
+    (when (string-suffix-p "~" pattern)
+      `(orderless-flex . ,(substring pattern 0 -1))))
+  (defun orderless//without-if-bang (pattern _index _total)
+    (when (string-prefix-p "!" pattern)
+      `(orderless-without-literal . ,(substring pattern 1))))
+  (defun orderless//literal-if-equal (pattern _index _total)
+    (when (string-prefix-p "=" pattern)
+      `(orderless-without-literal . ,(substring pattern 1))))
+  (setq orderless-component-separator 'orderless-escapable-split-on-space
+        ivy-re-builders-alist         '((t . orderless-ivy-re-builder))
+        orderless-matching-styles     '(orderless-regexp)
+        orderless-style-dispatchers   '(orderless//without-if-bang
+                                        orderless//literal-if-equal
+                                        orderless//flex-if-twiddle))
 
   (ivy-set-actions
    'counsel-find-file
