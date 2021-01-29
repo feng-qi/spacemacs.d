@@ -230,20 +230,25 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 
   (evil-define-operator fengqi/show-different-radix (beg end type)
     (interactive "<R>")
+    (require 'calc-bin)
     (let ((num-str (buffer-substring beg end)))
       (if (eq type 'block)
           (message "Execute on block not supported yet.")
         (let* ((value (string-to-number (calc-eval num-str)))
+               (twos-complement (string-to-number (substring (math-format-twos-complement value) 4)))
                (decimal (math-format-radix value))
-               (calc-number-radix 2)
-               (binary (math-format-radix value))
+               (cdecimal (math-format-radix twos-complement))
+               (binary (math-format-binary value))
+               (cbinary (math-format-binary twos-complement))
                (calc-number-radix 8)
                (octal (math-format-radix value))
+               (coctal (math-format-radix twos-complement))
                (calc-number-radix 16)
+               (chex (math-format-radix twos-complement))
                (hex (math-format-radix value)))
           (forward-line 1)
-          (insert (format "bin: %32s\ndec: %32s\noct: %32s\nhex: %32s\n"
-                          binary decimal octal hex))))))
+          (insert (format "bin: %32s\ndec: %32s\noct: %32s\nhex: %32s\ncbin:%32s\ncdec:%32s\ncoct:%32s\nchex:%32s\n"
+                          binary decimal octal hex cbinary cdecimal coctal chex))))))
 
   (evil-define-operator fengqi/eshell-command (beg end type)
     (interactive "<R>")
@@ -431,3 +436,17 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
     (if (get-buffer-window buffer 'visible)
         (delete-windows-on buffer)
       (pop-to-buffer buffer))))
+
+(defun fengqi/search-notes ()
+  (interactive)
+  (require 'counsel)
+  (let ((initial-input (when (region-active-p)
+                         (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (counsel-rg initial-input notes-default-directory nil
+                (format "rg from [%s]: " notes-default-directory))))
+
+(defun fengqi/swiper ()
+  (interactive)
+  (let ((initial-input (when (region-active-p)
+                         (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (swiper initial-input)))

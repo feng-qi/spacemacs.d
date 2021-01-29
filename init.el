@@ -684,6 +684,7 @@ before packages are loaded."
   (size-indication-mode 1)
   (electric-pair-mode 1)
   (setq hscroll-step                  1
+        notes-default-directory       "~/github/notes"
         shell-file-name               "bash"
         tab-always-indent             t
         reb-re-syntax                 'string ; =C-c TAB= in re-builder to switch
@@ -741,6 +742,8 @@ before packages are loaded."
     (kbd "pf")  'counsel-git
     (kbd "qQ")  'spacemacs/kill-emacs
     (kbd "qq")  'fengqi/delete-frame
+    (kbd "sn")  'fengqi/search-notes
+    (kbd "ss")  'fengqi/swiper
     (kbd "te")  'fengqi/toggle-lsp-signature-render-documentation
     (kbd "wo")  'spacemacs/toggle-maximize-buffer
     (kbd "ws")  'split-window-below-and-focus
@@ -882,7 +885,7 @@ before packages are loaded."
       `(orderless-without-literal . ,(substring pattern 1))))
   (defun orderless//literal-if-equal (pattern _index _total)
     (when (string-prefix-p "=" pattern)
-      `(orderless-without-literal . ,(substring pattern 1))))
+      `(orderless-literal . ,(substring pattern 1))))
   (setq orderless-component-separator 'orderless-escapable-split-on-space
         ivy-re-builders-alist         '((t . orderless-ivy-re-builder))
         orderless-matching-styles     '(orderless-regexp)
