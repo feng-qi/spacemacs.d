@@ -442,6 +442,7 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
   (require 'counsel)
   (let ((initial-input (when (region-active-p)
                          (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (deactivate-mark)
     (counsel-rg initial-input notes-default-directory nil
                 (format "rg from [%s]: " notes-default-directory))))
 
@@ -449,4 +450,5 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
   (interactive)
   (let ((initial-input (when (region-active-p)
                          (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (deactivate-mark)
     (swiper initial-input)))

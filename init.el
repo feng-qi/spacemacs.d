@@ -152,7 +152,7 @@ This function should only modify configuration layer settings."
                                       deferred
                                       epc
                                       memory-usage
-                                      dts-mode
+                                      (dts-mode :location (recipe :fetcher github :repo "feng-qi/dts-mode"))
                                       bing-dict
                                       dictionary
                                       ;; pyim-wbdict
@@ -185,6 +185,7 @@ This function should only modify configuration layer settings."
                                     clean-aindent-mode
                                     google-translate
                                     lorem-ipsum
+                                    smex
                                     gh-md
                                     multiple-cursors
                                     hungry-delete
@@ -593,6 +594,9 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
 
+   ;; Show trailing whitespace (default t)
+   dotspacemacs-show-trailing-whitespace t
+
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
@@ -641,12 +645,12 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (setq tramp-ssh-controlmaster-options
-        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+  ;; (setq tramp-ssh-controlmaster-options
+  ;;       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   (setq configuration-layer-elpa-archives
-        '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-          ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-          ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+        '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+          ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
+          ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
   ;; (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
   ;; set transparency background when started from terminal
@@ -695,10 +699,12 @@ before packages are loaded."
         sp-highlight-pair-overlay     nil
         sp-highlight-wrap-overlay     nil
         sp-highlight-wrap-tag-overlay nil)
-  (setq c-default-style
-        '((java-mode . "java")
-          (awk-mode . "awk")
-          (other . "k&r")))
+  (setq c-default-style '((java-mode . "java")
+                          (awk-mode . "awk")
+                          (other . "k&r"))
+        c-doc-comment-style '((java-mode . javadoc)
+                              (c-mode    . doxygen)
+                              (c++-mode  . doxygen)))
   (setq-default fill-column    80
                 truncate-lines t)
 
@@ -827,7 +833,10 @@ before packages are loaded."
     ;; (diredfl-global-mode)
     ;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (evil-define-key 'normal dired-mode-map
+      (kbd "TAB")   'dired-subtree-toggle
+      "i"   'fengqi/dired-toggle-read-only-in-evil-normal
       "r"   'dired-rsync
+      "s"   'fengqi/dired-sort-other
       "h"   'dired-subtree-up
       "H"   'evil-window-top
       "L"   'evil-window-bottom
@@ -921,12 +930,6 @@ before packages are loaded."
       (kbd "M-.") 'bing-dict-brief-at-point
       (kbd ";")   'self-insert-command
       (kbd "RET") 'newline)
-     (dired-mode-map
-      (kbd "TAB")     'dired-subtree-toggle
-      (kbd "S-TAB")   'dired-subtree-cycle
-      (kbd "i")       'fengqi/dired-toggle-read-only-in-evil-normal
-      (kbd "s")       'fengqi/dired-sort-other
-      (kbd "f")       'evil-find-char)
      (symbol-overlay-map
       (kbd "n") #'symbol-overlay-jump-next
       (kbd "p") #'symbol-overlay-jump-prev
