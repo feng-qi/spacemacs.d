@@ -230,8 +230,15 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 
   (evil-define-operator fengqi/show-different-radix (beg end type)
     (interactive "<R>")
+    (require 's)
     (require 'calc-bin)
-    (let ((num-str (buffer-substring beg end)))
+    (let* ((orig-str (s-downcase (buffer-substring-no-properties beg end)))
+           (num-str (if (string-prefix-p "0x" orig-str)
+                        (->> orig-str
+                             (s-replace "0x" "16#")
+                             (s-replace "u" "")
+                             (s-replace "l" ""))
+                      orig-str)))
       (if (eq type 'block)
           (message "Execute on block not supported yet.")
         (let* ((value (string-to-number (calc-eval num-str)))
@@ -245,9 +252,19 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
                (coctal (math-format-radix twos-complement))
                (calc-number-radix 16)
                (chex (math-format-radix twos-complement))
-               (hex (math-format-radix value)))
+               (hex (math-format-radix value))
+               (width (length (format "%s" binary)))
+               (width (if (> width 32) (length (format "%s" octal)) width))
+               (width (number-to-string width)))
           (forward-line 1)
-          (insert (format "bin: %32s\ndec: %32s\noct: %32s\nhex: %32s\ncbin:%32s\ncdec:%32s\ncoct:%32s\nchex:%32s\n"
+          (insert (format (concat "bin: %" width "s\n"
+                                  "dec: %" width "s\n"
+                                  "oct: %" width "s\n"
+                                  "hex: %" width "s\n"
+                                  "cbin:%" width "s\n"
+                                  "cdec:%" width "s\n"
+                                  "coct:%" width "s\n"
+                                  "chex:%" width "s\n")
                           binary decimal octal hex cbinary cdecimal coctal chex))))))
 
   (evil-define-operator fengqi/eshell-command (beg end type)
