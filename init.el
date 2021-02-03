@@ -47,6 +47,8 @@ This function should only modify configuration layer settings."
           lsp-enable-file-watchers nil
           lsp-enable-on-type-formatting nil
           lsp-enable-indentation nil
+          lsp-modeline-diagnostics-enable nil
+          lsp-modeline-code-actions-enable nil
           lsp-signature-render-documentation nil
           lsp-ui-doc-enable nil
           lsp-ui-sideline-enable nil)
@@ -116,9 +118,6 @@ This function should only modify configuration layer settings."
      (python :variables
              python-backend 'lsp
              python-formatter 'yapf
-             dap-python-executable "python3"
-             flycheck-python-pycompile-executable "python3"
-             python-shell-interpreter "python3"
              python-shell-interpreter-args "-i")
      ipython-notebook
      ranger
@@ -736,7 +735,7 @@ before packages are loaded."
     (kbd "oec") 'fengqi/calc-eval
     (kbd "oee") 'eval-and-replace
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
-    (kbd "oep") 'fengqi/eval-region-or-line-by-python3
+    (kbd "oep") 'fengqi/eval-region-or-line-by-python
     (kbd "oez") 'fengqi/eval-region-or-line-by-zsh
     (kbd "ogg") 'fengqi/magit-status-add-dotfiles-config
     (kbd "ogd") 'fengqi/magit-status-remove-dotfiles-config
@@ -796,7 +795,6 @@ before packages are loaded."
                        (kbd "C-c ,")  #'org-insert-structure-template)
     (setq org-export-with-section-numbers  nil
           org-export-with-sub-superscripts nil
-          org-babel-python-command         "python3"
           org-src-window-setup 'split-window-below
           org-link-frame-setup '((vm      . vm-visit-folder-other-frame)
                                  (vm-imap . vm-visit-imap-folder-other-frame)
@@ -939,9 +937,7 @@ before packages are loaded."
      (evil-normal-state-map
       (kbd "M-e") 'symbol-overlay-put
       (kbd "M-n") 'symbol-overlay-switch-forward
-      (kbd "M-p") 'symbol-overlay-switch-backward
-      (kbd "g[")  'backward-page
-      (kbd "g]")  'forward-page)
+      (kbd "M-p") 'symbol-overlay-switch-backward)
      (evil-ex-completion-map
       (kbd "C-f") #'forward-char
       (kbd "C-b") #'backward-char

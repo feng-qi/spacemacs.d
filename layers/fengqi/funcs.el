@@ -224,7 +224,7 @@ URL `http://ergoemacs.org/emacs/dired_sort.html' with some modifications."
 
 (fengqi|eval-region-or-line-by-??? "zsh" "-c")
 (fengqi|eval-region-or-line-by-??? "bash" "-c")
-(fengqi|eval-region-or-line-by-??? "python3" "-c")
+(fengqi|eval-region-or-line-by-??? "python" "-c")
 
 (with-eval-after-load 'evil
 
