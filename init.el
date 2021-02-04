@@ -845,6 +845,9 @@ before packages are loaded."
   (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol))
   (with-eval-after-load 'magit
+    (evil-define-key 'normal magit-status-mode-map
+      "[[" #'magit-section-backward-sibling
+      "]]" #'magit-section-forward-sibling)
     (setq magit-log-margin-show-committer-date t)
     (define-key magit-status-mode-map (kbd "M-RET") #'forge-browse-dwim)
     (define-key magit-status-mode-map (kbd "%") #'magit-worktree))
