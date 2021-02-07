@@ -874,9 +874,17 @@ before packages are loaded."
   (with-eval-after-load 'eshell
     (defun eshell-find-alias-function (name)
       "Check whether a function called `eshell/NAME' exists."
-      (let ((eshell-allowed-alias-list '("which" "alias")))
-        (if (member name eshell-allowed-alias-list)
-            (intern-soft (concat "eshell/" name))))))
+      (let ((eshell-disabled-alias-list '("date")))
+        (unless (member name eshell-disabled-alias-list)
+          (intern-soft (concat "eshell/" name)))))
+
+    (defun eshell/take (&rest args)
+      "cd or create directory when necessary."
+      (let ((directory-name (car args)))
+        (cond ((file-directory-p directory-name) (eshell/cd directory-name))
+              ((file-exists-p directory-name)    (message "Error: target is not a directory"))
+              (t (progn (eshell/mkdir "-p" directory-name)
+                        (eshell/cd directory-name)))))))
   (with-eval-after-load 'em-hist
     (define-key eshell-hist-mode-map
       (kbd "C-r")  #'counsel-esh-history))
