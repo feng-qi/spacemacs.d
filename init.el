@@ -146,8 +146,12 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(json-mode
+                                      separedit
+                                      embark
                                       orderless
                                       s
+                                      f
+                                      dash
                                       ctable
                                       deferred
                                       epc
@@ -629,7 +633,10 @@ It should only modify the values of Spacemacs settings."
 
    ;; If nil the home buffer shows the full path of agenda items
    ;; and todos. If non nil only the file name is shown.
-   dotspacemacs-home-shorten-agenda-source nil))
+   dotspacemacs-home-shorten-agenda-source nil
+
+   ;; If non-nil then byte-compile some of Spacemacs files.
+   dotspacemacs-byte-compile nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -688,6 +695,8 @@ before packages are loaded."
   (size-indication-mode 1)
   (electric-pair-mode 1)
   (setq hscroll-step                  1
+        comp-async-report-warnings-errors nil
+        time-stamp-format             "%Y-%02m-%02d %02H:%02M:%02S %5z"
         notes-default-directory       "~/github/notes"
         shell-file-name               "bash"
         tab-always-indent             t
@@ -756,6 +765,21 @@ before packages are loaded."
     (kbd "wv")  'split-window-right-and-focus
     ;; (kbd "y")   'fengqi/kill-and-osc52-send
     (kbd "xas") 'fengqi/aligh-repeat-whitespace)
+
+  (setq embark-action-indicator
+        (lambda (map _target)
+          (which-key--show-keymap "Embark" map nil nil 'no-paging)
+          #'which-key--hide-popup-ignore-command)
+        embark-become-indicator embark-action-indicator)
+
+  (with-eval-after-load 'embark
+    (fengqi/define-key embark-region-map
+                       "e"   #'eval-and-replace
+                       "c"   #'fengqi/calc-eval)
+    (fengqi/define-key embark-file-map
+                       "e"   #'eaf-open)
+    (fengqi/define-key embark-url-map
+                       "e"   #'eaf-open-browser))
 
   (with-eval-after-load 'cc-mode
     (fengqi/define-key c++-mode-map
@@ -892,9 +916,26 @@ before packages are loaded."
     (add-hook 'calendar-today-visible-hook #'calendar-mark-today)
     (setq calendar-chinese-all-holidays-flag t))
 
-  (setq browse-url-handlers
-        `(("\\`https://github.com" . ,(if (fboundp 'eaf-open-browser) 'eaf-open-browser 'browse-url-default-browser))
-          ("\\`file:" . browse-url-default-browser)))
+  (autoload 'eaf-open "eaf" "eaf-open" t)
+  (autoload 'eaf-open-browser "eaf" "eaf-open-browser" t)
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-application-framework")
+  (with-eval-after-load 'eaf
+    ;; (require 'eaf)
+    (require 'eaf-evil)
+    (eaf-bind-key scroll_up_page "f" eaf-pdf-viewer-keybinding)
+    (eaf-bind-key jump_to_link   "F" eaf-pdf-viewer-keybinding)
+    (eaf-bind-key insert_or_scroll_up_page   "f" eaf-browser-keybinding)
+    (eaf-bind-key insert_or_scroll_down_page "b" eaf-browser-keybinding)
+    (eaf-bind-key insert_or_open_link        "F" eaf-browser-keybinding)
+    (eaf-bind-key toggle_play "p" eaf-js-video-player-keybinding)
+    (eaf-bind-key toggle_play "C-SPC" eaf-js-video-player-keybinding)
+    (setq eaf-evil-leader-key    "SPC"
+          eaf-evil-leader-keymap 'spacemacs-cmds)
+    (setq browse-url-handlers
+          `(("\\`https://github.com" . ,(if (fboundp 'eaf-open-browser) 'eaf-open-browser 'browse-url-default-browser))
+            ("\\`file:" . browse-url-default-browser))))
+
+  (define-key prog-mode-map (kbd "C-c '") #'separedit)
 
   (defun orderless//flex-if-twiddle (pattern _index _total)
     (when (string-suffix-p "~" pattern)
@@ -917,6 +958,7 @@ before packages are loaded."
    '(("b" counsel-find-file-cd-bookmark-action "cd bookmark")
      ("c" counsel-find-file-copy "copy file")
      ("d" counsel-find-file-delete "delete")
+     ("e" eaf-open "eaf-open")
      ("i" ivy--action-insert "insert")
      ("k" counsel-find-file-mkdir-action "mkdir")
      ("l" find-file-literally "open literally")
@@ -933,6 +975,7 @@ before packages are loaded."
 
   (fengqi/define-key-for-keymaps
    '((global-map
+      (kbd "M-a") 'embark-act
       (kbd "C-s") 'isearch-forward
       (kbd "M-u") 'fengqi/upcase-region-or-symbol-at-point
       (kbd "M-l") 'fengqi/downcase-region-or-symbol-at-point
