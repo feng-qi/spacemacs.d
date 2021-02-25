@@ -731,7 +731,6 @@ before packages are loaded."
     (kbd "ce")  'fengqi/show-hide-async-shell-command-window
     (kbd "cs")  'fengqi/untabify-region-or-buffer
     (kbd "ct")  'fengqi/tabify-region-or-buffer
-    (kbd "ee")  'fengqi/calc-eval
     (kbd "fCc") 'set-buffer-file-coding-system ; change buffer encoding
     (kbd "fCr") 'revert-buffer-with-coding-system
     (kbd "fd")  'fd-dired
@@ -741,8 +740,6 @@ before packages are loaded."
     (kbd "nw")  'widen
     (kbd "oc")  'fengqi/show-different-radix
     (kbd "od")  'dictionary-search
-    (kbd "oec") 'fengqi/calc-eval
-    (kbd "oee") 'eval-and-replace
     (kbd "oeb") 'fengqi/eval-region-or-line-by-bash
     (kbd "oep") 'fengqi/eval-region-or-line-by-python
     (kbd "oez") 'fengqi/eval-region-or-line-by-zsh
@@ -766,13 +763,14 @@ before packages are loaded."
     ;; (kbd "y")   'fengqi/kill-and-osc52-send
     (kbd "xas") 'fengqi/aligh-repeat-whitespace)
 
-  (setq embark-action-indicator
-        (lambda (map _target)
-          (which-key--show-keymap "Embark" map nil nil 'no-paging)
-          #'which-key--hide-popup-ignore-command)
-        embark-become-indicator embark-action-indicator)
-
   (with-eval-after-load 'embark
+    (setq embark-action-indicator
+          (lambda (map _target)
+            (which-key--show-keymap "Embark" map nil nil 'no-paging)
+            #'which-key--hide-popup-ignore-command)
+          embark-become-indicator embark-action-indicator)
+    (fengqi/define-key embark-general-map
+                       "c"   #'fengqi/calc-eval)
     (fengqi/define-key embark-region-map
                        "e"   #'eval-and-replace
                        "c"   #'fengqi/calc-eval)
@@ -858,6 +856,7 @@ before packages are loaded."
     (evil-define-key 'normal dired-mode-map
       (kbd "TAB")   'dired-subtree-toggle
       "i"   'fengqi/dired-toggle-read-only-in-evil-normal
+      "o"   'dired-find-file-other-window
       "r"   'dired-rsync
       "s"   'fengqi/dired-sort-other
       "h"   'dired-subtree-up
@@ -922,6 +921,8 @@ before packages are loaded."
   (with-eval-after-load 'eaf
     ;; (require 'eaf)
     (require 'eaf-evil)
+    (require 'eaf-org)
+    (eaf-bind-key scroll_up      "e" eaf-pdf-viewer-keybinding)
     (eaf-bind-key scroll_up_page "f" eaf-pdf-viewer-keybinding)
     (eaf-bind-key jump_to_link   "F" eaf-pdf-viewer-keybinding)
     (eaf-bind-key insert_or_scroll_up_page   "f" eaf-browser-keybinding)
@@ -930,10 +931,10 @@ before packages are loaded."
     (eaf-bind-key toggle_play "p" eaf-js-video-player-keybinding)
     (eaf-bind-key toggle_play "C-SPC" eaf-js-video-player-keybinding)
     (setq eaf-evil-leader-key    "SPC"
-          eaf-evil-leader-keymap 'spacemacs-cmds)
-    (setq browse-url-handlers
-          `(("\\`https://github.com" . ,(if (fboundp 'eaf-open-browser) 'eaf-open-browser 'browse-url-default-browser))
-            ("\\`file:" . browse-url-default-browser))))
+          eaf-evil-leader-keymap 'spacemacs-cmds))
+  (setq browse-url-handlers
+        `(("\\`https://github.com" . eaf-open-browser)
+          ("\\`file:" . browse-url-default-browser)))
 
   (define-key prog-mode-map (kbd "C-c '") #'separedit)
 
