@@ -49,8 +49,13 @@ This function should only modify configuration layer settings."
           lsp-enable-indentation nil
           lsp-modeline-diagnostics-enable nil
           lsp-modeline-code-actions-enable nil
+          lsp-enable-snippet nil
+          lsp-enable-symbol-highlighting nil
+          lsp-eldoc-enable-hover nil
           lsp-signature-render-documentation nil
           lsp-ui-doc-enable nil
+          lsp-ui-doc-show-with-cursor nil
+          lsp-ui-doc-show-with-mouse nil
           lsp-ui-sideline-enable nil)
      (treemacs :variables treemacs-position 'right)
      docker
@@ -79,10 +84,12 @@ This function should only modify configuration layer settings."
      (clojure :variables clojure-enable-fancify-symbols nil)
      emacs-lisp
      scheme
-     parinfer
      (go :variables go-tab-width 4)
      sml
      haskell
+     ;; ocaml
+     ;; nixos
+     ;; (julia :variables julia-backend 'lsp)
      idris
      octave
      (lua :variables lua-indent-level 4)
@@ -119,7 +126,7 @@ This function should only modify configuration layer settings."
              python-backend 'lsp
              python-formatter 'yapf
              python-shell-interpreter-args "-i")
-     ipython-notebook
+     ;; ipython-notebook
      ranger
      sql
      ;; fasd
@@ -182,6 +189,7 @@ This function should only modify configuration layer settings."
                                     chinese-word-at-point
                                     treemacs-icons-dired
                                     smartparens
+                                    string-edit
                                     vi-tilde-fringe
                                     evil-escape
                                     evil-tutor
@@ -189,6 +197,11 @@ This function should only modify configuration layer settings."
                                     clean-aindent-mode
                                     google-translate
                                     lorem-ipsum
+                                    link-hint
+                                    move-text
+                                    ws-butler
+                                    dired-quick-sort
+                                    editorconfig
                                     smex
                                     gh-md
                                     multiple-cursors
@@ -694,6 +707,7 @@ before packages are loaded."
   (global-so-long-mode 1)
   (size-indication-mode 1)
   (electric-pair-mode 1)
+  (evil-set-undo-system 'undo-redo)
   (setq hscroll-step                  1
         comp-async-report-warnings-errors nil
         time-stamp-format             "%Y-%02m-%02d %02H:%02M:%02S %5z"
@@ -915,6 +929,9 @@ before packages are loaded."
     (add-hook 'calendar-today-visible-hook #'calendar-mark-today)
     (setq calendar-chinese-all-holidays-flag t))
 
+  (with-eval-after-load 'flycheck
+    (flycheck-pos-tip-mode -1))
+
   (autoload 'eaf-open "eaf" "eaf-open" t)
   (autoload 'eaf-open-browser "eaf" "eaf-open-browser" t)
   (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-application-framework")
@@ -925,6 +942,7 @@ before packages are loaded."
     (eaf-bind-key scroll_up      "e" eaf-pdf-viewer-keybinding)
     (eaf-bind-key scroll_up_page "f" eaf-pdf-viewer-keybinding)
     (eaf-bind-key jump_to_link   "F" eaf-pdf-viewer-keybinding)
+    (eaf-bind-key insert_or_scroll_up        "e" eaf-browser-keybinding)
     (eaf-bind-key insert_or_scroll_up_page   "f" eaf-browser-keybinding)
     (eaf-bind-key insert_or_scroll_down_page "b" eaf-browser-keybinding)
     (eaf-bind-key insert_or_open_link        "F" eaf-browser-keybinding)
@@ -933,7 +951,7 @@ before packages are loaded."
     (setq eaf-evil-leader-key    "SPC"
           eaf-evil-leader-keymap 'spacemacs-cmds))
   (setq browse-url-handlers
-        `(("\\`https://github.com" . eaf-open-browser)
+        '(("\\`https://github.com" . eaf-open-browser)
           ("\\`file:" . browse-url-default-browser)))
 
   (define-key prog-mode-map (kbd "C-c '") #'separedit)
